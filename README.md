@@ -59,9 +59,52 @@ A pasta `functions/` contém a função administrativa de reset do histórico. E
 
 Para instalar dependências dentro de `functions/`, use `npm ci`. Para servir localmente, consulte a documentação oficial do Firebase CLI e configure o projeto de teste primeiro. `node_modules/` e caches locais foram removidos intencionalmente.
 
-## Hardware e pinos
+## Componentes e materiais utilizados
 
-Consulte os comentários no firmware para a atribuição de GPIOs. Verifique a tensão lógica dos sensores, a proteção do pino ECHO do ultrassônico e o divisor de tensão da bateria antes de montar o circuito. Não conecte sinais acima da tensão máxima permitida pelos GPIOs do ESP32-S3.
+A lista abaixo documenta os principais componentes previstos no projeto e no firmware. Modelos equivalentes podem funcionar, mas devem ser conferidos antes de montar ou substituir peças.
+
+### Eletrônica
+
+- **1 × ESP32-S3 N16R8**, placa de desenvolvimento com USB-C (44 pinos).
+- **3 × sensores ultrassônicos JSN-SR04T**, para medir os níveis das caixas d’água.
+- **1 × sensor AHT20**, para temperatura e umidade do ar.
+- **1 × sensor BMP280**, para pressão atmosférica.
+- **1 × módulo sensor de chuva**, ligado à entrada analógica/digital conforme a versão utilizada.
+- **1 × módulo RTC DS3231**, com bateria, para manter o relógio quando a internet estiver indisponível.
+- **1 × bateria de lítio 18650 (3,7 V)** usada no conjunto de backup/UPS.
+- **1 × divisor resistivo de tensão**, com resistores de **100 kΩ e 10 kΩ**, para medir a tensão da bateria com o ESP32-S3.
+- Fonte de alimentação e componentes de proteção adequados à instalação, incluindo fusível e circuito de carregamento/backup compatível.
+- Fios, conectores, protoboard ou placa de circuito e caixa de proteção adequados ao ambiente de instalação.
+
+> A fonte, o carregador e a proteção da bateria devem ser compatíveis com a célula utilizada. Não ligue a bateria diretamente ao ESP32 nem carregue uma célula de lítio sem circuito de carga/proteção apropriado.
+
+### Ligações de referência do firmware
+
+| Função | GPIO / ligação |
+| --- | --- |
+| Caixa 1 — TRIG / ECHO | GPIO 17 / GPIO 18 |
+| Caixa 2 — TRIG / ECHO | GPIO 5 / GPIO 6 |
+| Caixa Principal — TRIG / ECHO | GPIO 10 / GPIO 11 |
+| Sensor de chuva | GPIO 4 |
+| AHT20 e BMP280 — I²C | SDA GPIO 8 / SCL GPIO 9 |
+| DS3231 — I²C separado (`Wire1`) | SDA GPIO 12 / SCL GPIO 13 |
+| Leitura da bateria pelo divisor | GPIO 1 |
+
+O firmware está configurado para caixas de **500 L, 500 L e 1.000 L**, respectivamente. A calibração física depende da altura de instalação dos sensores e das dimensões reais de cada reservatório.
+
+**Atenção elétrica:** confirme a pinagem do módulo que você comprou. Alguns sensores ultrassônicos trabalham com sinal ECHO de 5 V; o ESP32-S3 usa lógica de 3,3 V. Use adaptação/divisor de nível apropriado no ECHO quando necessário e nunca aplique tensão acima do limite permitido nos GPIOs.
+
+### Software e serviços
+
+- Arduino IDE e suporte à placa ESP32-S3.
+- Bibliotecas Arduino para AHT20, BMP280, RTC DS3231/RTClib e ArduinoJson, além das bibliotecas usadas pelo firmware.
+- Firebase Realtime Database, Hosting e Cloud Functions para armazenamento e painel web.
+- Aplicação web instalável (PWA) para consultar os dados.
+- Bot do Telegram para notificações, se habilitado.
+
+## Agradecimentos
+
+Este projeto foi idealizado, montado, testado e acompanhado por **Ricardo**, com apoio do **ChatGPT (OpenAI)** no planejamento, organização do código, diagnóstico de problemas, documentação e preparação da publicação. A montagem física, as decisões finais e os testes no local são de responsabilidade do autor do projeto.
 
 ## Publicação
 
