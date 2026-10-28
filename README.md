@@ -83,6 +83,10 @@ A pasta `functions/` contém a função administrativa de reset do histórico. E
 
 Para instalar dependências dentro de `functions/`, use `npm ci`. Para servir localmente, consulte a documentação oficial do Firebase CLI e configure o projeto de teste primeiro. `node_modules/` e caches locais foram removidos intencionalmente.
 
+## Não tem exatamente essas peças?
+
+Tudo bem. O projeto é modular: vários sensores são opcionais e os pinos podem ser trocados no início do firmware. Use este repositório como base e adapte para o que você tiver.
+
 ## Componentes e materiais utilizados
 
 A lista abaixo documenta os principais componentes previstos no projeto e no firmware. Modelos equivalentes podem funcionar, mas devem ser conferidos antes de montar ou substituir peças.
@@ -128,7 +132,7 @@ O firmware está configurado para caixas de **500 L, 500 L e 1.000 L**, respecti
 
 ## Agradecimentos
 
-Este projeto foi idealizado, montado, testado e acompanhado por **Ricardo**, com apoio do **ChatGPT (OpenAI)** no planejamento, organização do código, diagnóstico de problemas, documentação e preparação da publicação. A montagem física, as decisões finais e os testes no local são de responsabilidade do autor do projeto.
+Este projeto foi idealizado, montado, testado e acompanhado por **Ricardo**, com apoio do **ChatGPT (OpenAI)** e do **Claude (Anthropic)** no planejamento, organização do código, diagnóstico de problemas, documentação e preparação da publicação. A montagem física, as decisões finais e os testes no local são de responsabilidade do autor do projeto.
 
 ## Publicação
 
