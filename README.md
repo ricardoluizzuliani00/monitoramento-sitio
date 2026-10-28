@@ -28,7 +28,7 @@ Painel com nível e volume das caixas, temperatura, umidade, pressão, status de
 
 ![Interior da caixa de proteção com ESP32-S3, sensor de chuva, módulo ultrassônico e suporte da bateria 18650](imagens/caixa-eletronica-esp32s3.jpg)
 
-ESP32-S3 N16R8 em placa com bornes, módulo do sensor ultrassônico, módulo do sensor de chuva e suporte da bateria 18650, dentro de uma caixa de proteção.
+ESP32-S3 N16R8 em placa com bornes, módulo do sensor ultrassônico, módulo do sensor de chuva e suporte da bateria 18650, dentro de uma caixa de proteção. Ouve mudancas em alguns componentes da foto!!
 
 ### Componentes
 
@@ -94,7 +94,7 @@ A lista abaixo documenta os principais componentes previstos no projeto e no fir
 ### Eletrônica
 
 - **1 × ESP32-S3 N16R8**, placa de desenvolvimento com USB-C (44 pinos).
-- **3 × sensores ultrassônicos JSN-SR04T**, para medir os níveis das caixas d’água.
+- **3 × sensores ultrassônicos JSN-SR04T/AJ-SR04M**, para medir os níveis das caixas d’água.
 - **1 × sensor AHT20**, para temperatura e umidade do ar.
 - **1 × sensor BMP280**, para pressão atmosférica.
 - **1 × módulo sensor de chuva**, ligado à entrada analógica/digital conforme a versão utilizada.
