@@ -132,7 +132,7 @@ O firmware está configurado para caixas de **500 L, 500 L e 1.000 L**, respecti
 
 ## Agradecimentos
 
-Este projeto foi idealizado, montado, testado e acompanhado por **Ricardo**, com apoio do **ChatGPT (OpenAI)** e do **Claude (Anthropic)** no planejamento, organização do código, diagnóstico de problemas, documentação e preparação da publicação. A montagem física, as decisões finais e os testes no local são de responsabilidade do autor do projeto.
+Este projeto foi idealizado, montado, testado e acompanhado por **Ricardo Zuliani**, com apoio do **ChatGPT (OpenAI)** e do **Claude (Anthropic)** no planejamento, organização do código, diagnóstico de problemas, documentação e preparação da publicação. A montagem física, as decisões finais e os testes no local são de responsabilidade do autor do projeto.
 
 ## Publicação
 
