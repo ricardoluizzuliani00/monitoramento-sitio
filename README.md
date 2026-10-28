@@ -28,7 +28,7 @@ Painel com nível e volume das caixas, temperatura, umidade, pressão, status de
 
 ![Interior da caixa de proteção com ESP32-S3, sensor de chuva, módulo ultrassônico e suporte da bateria 18650](imagens/caixa-eletronica-esp32s3.jpg)
 
-ESP32-S3 N16R8 em placa com bornes, módulo do sensor ultrassônico, módulo do sensor de chuva e suporte da bateria 18650, dentro de uma caixa de proteção. Ouve mudancas em alguns componentes da foto!!
+ESP32-S3 N16R8 em placa com bornes, módulo do sensor ultrassônico, módulo do sensor de chuva e suporte da bateria 18650, dentro de uma caixa de proteção. Houve mudanças em alguns componentes depois desta foto!!
 
 ### Componentes
 
