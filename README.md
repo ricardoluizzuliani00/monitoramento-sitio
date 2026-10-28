@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="imagens/banner-sitio-4-irmaos.png" alt="Sítio 4 Irmãos — Monitoramento inteligente de água, clima e energia" width="100%">
+</p>
+
 # Monitoramento do Sítio 4 Irmãos
 
 Projeto de monitoramento de reservatórios de água com ESP32-S3, sensores ambientais, histórico no Firebase e painel web instalável (PWA). Este repositório é uma versão de demonstração preparada para publicação; as configurações reais foram removidas.
@@ -11,6 +15,26 @@ Projeto de monitoramento de reservatórios de água com ESP32-S3, sensores ambie
 - Histórico e visualização pelo painel web/PWA.
 - Integração opcional com Firebase e notificações Telegram.
 - Relógio RTC DS3231 e sincronização de horário pela rede.
+
+## Fotos do projeto
+
+### Painel web (PWA)
+
+![Painel web com nível das caixas, clima e energia](imagens/painel-web-dashboard.jpg)
+
+Painel com nível e volume das caixas, temperatura, umidade, pressão, status de chuva e estado da bateria. Na captura, apenas a Caixa 1 estava com sensor ativo.
+
+### Caixa eletrônica (ESP32-S3)
+
+![Interior da caixa de proteção com ESP32-S3, sensor de chuva, módulo ultrassônico e suporte da bateria 18650](imagens/caixa-eletronica-esp32s3.jpg)
+
+ESP32-S3 N16R8 em placa com bornes, módulo do sensor ultrassônico, módulo do sensor de chuva e suporte da bateria 18650, dentro de uma caixa de proteção.
+
+### Componentes
+
+![Componentes usados e previstos no projeto](imagens/componentes-do-projeto.jpg)
+
+Componentes do projeto: painel solar, sensor capacitivo de umidade do solo, protoboard, jumpers e ferro de solda.
 
 ## Estrutura
 
@@ -104,7 +128,7 @@ O firmware está configurado para caixas de **500 L, 500 L e 1.000 L**, respecti
 
 ## Agradecimentos
 
-Este projeto foi idealizado, montado, testado e acompanhado por mim **Ricardo**, com apoio do **ChatGPT (OpenAI)** e do **Claude IA** no planejamento, organização do código, diagnóstico de problemas, documentação e preparação da publicação. A montagem física, as decisões finais e os testes no local são de responsabilidade do autor do projeto.
+Este projeto foi idealizado, montado, testado e acompanhado por **Ricardo**, com apoio do **ChatGPT (OpenAI)** no planejamento, organização do código, diagnóstico de problemas, documentação e preparação da publicação. A montagem física, as decisões finais e os testes no local são de responsabilidade do autor do projeto.
 
 ## Publicação
 
