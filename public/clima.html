@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/png" href="/icons/logo-sitio-icon.png">    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Condições do Sítio • Sítio 4 Irmãos</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0b0d0f">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/detalhes.css">
+    <link rel="stylesheet" href="css/clima-detalhes.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+<div class="pagina-detalhes pagina-clima">
+    <header class="topo-detalhes">
+        <a href="index.html" class="voltar">← Voltar</a>
+        <div class="titulo-detalhes">
+            <span>MONITORAMENTO CLIMÁTICO</span>
+            <h1>🌦️ Condições do Sítio</h1>
+            <p>Temperatura • Umidade • Pressão</p>
+        </div>
+        <div id="conexao-detalhes" class="online">🟡 Aguardando...</div>
+    </header>
+
+    <section class="resumo-clima">
+        <div class="clima-atual-item">
+            <span>🌡️ TEMPERATURA</span>
+            <strong id="temperatura-detalhes">--°C</strong>
+        </div>
+        <div class="clima-atual-item">
+            <span>💧 UMIDADE</span>
+            <strong id="umidade-detalhes">--%</strong>
+        </div>
+        <div class="clima-atual-item">
+            <span>🌬️ PRESSÃO</span>
+            <strong id="pressao-detalhes">---- hPa</strong>
+        </div>
+    </section>
+
+    <section class="cards-informacao clima-info">
+        <div class="info-card">
+            <span>🌧️ CONDIÇÃO</span>
+            <strong id="chuva-detalhes">--</strong>
+        </div>
+        <div class="info-card">
+            <span>🕐 ATUALIZAÇÃO</span>
+            <strong id="atualizacao-detalhes">--</strong>
+        </div>
+        <div class="info-card">
+            <span>📡 SENSOR</span>
+            <strong id="sensor-clima-detalhes">Aguardando...</strong>
+        </div>
+    </section>
+
+    <section class="historico-card">
+        <div class="cabecalho-historico">
+            <div>
+                <span class="tag-historico">HISTÓRICO</span>
+                <h2>Variações do Clima</h2>
+            </div>
+            <div class="acoes-historico">
+                <div class="filtros-historico">
+                    <button class="filtro ativo" data-periodo="24h">24h</button>
+                    <button class="filtro" data-periodo="7d">7 dias</button>
+                    <button class="filtro" data-periodo="30d">30 dias</button>
+                </div>
+                <div class="grupo-pdf">
+                    <button id="gerar-relatorio-pdf-completo" class="botao-pdf" type="button">PDF Completo</button>
+                    <button id="gerar-relatorio-pdf-resumido" class="botao-pdf secundario" type="button">PDF Resumido</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="sem-historico" class="sem-historico">Carregando histórico...</div>
+
+        <div class="grade-graficos-clima">
+            <div class="grafico-clima-card">
+                <div class="grafico-clima-topo">
+                    <div><span>🌡️</span><strong>Temperatura</strong></div>
+                    <span id="faixa-temperatura" class="faixa-clima">--</span>
+                </div>
+                <div class="grafico-container"><canvas id="graficoTemperatura"></canvas></div>
+            </div>
+
+            <div class="grafico-clima-card">
+                <div class="grafico-clima-topo">
+                    <div><span>💧</span><strong>Umidade</strong></div>
+                    <span id="faixa-umidade" class="faixa-clima">--</span>
+                </div>
+                <div class="grafico-container"><canvas id="graficoUmidade"></canvas></div>
+            </div>
+
+            <div class="grafico-clima-card">
+                <div class="grafico-clima-topo">
+                    <div><span>🌬️</span><strong>Pressão</strong></div>
+                    <span id="faixa-pressao" class="faixa-clima">--</span>
+                </div>
+                <div class="grafico-container"><canvas id="graficoPressao"></canvas></div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script type="module" src="js/clima-detalhes.js?v=20260928-8"></script>
+<footer class="footer-sitio"></footer>
+</body>
+</html>
+

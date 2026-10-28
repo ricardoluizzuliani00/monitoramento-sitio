@@ -1,0 +1,982 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0b0d0f;
+    color: #fff;
+}
+
+.dashboard {
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 20px 20px 8px;
+}
+
+
+/* =========================================================
+   CABEÇALHO VISUAL - SÍTIO 4 IRMÃOS
+========================================================= */
+
+.cabecalho {
+    width: 100%;
+    height: 170px;
+    margin-bottom: 22px;
+
+    background-image: url("icons/cabecalho-sitio.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    border: 1px solid rgba(199, 169, 91, 0.65);
+    border-radius: 18px;
+    box-sizing: border-box;
+}
+
+@media (max-width: 700px) {
+    .cabecalho {
+        height: 150px;
+        margin-bottom: 16px;
+        background-size: contain;
+        background-color: #000;
+    }
+}
+
+/* CARDS */
+
+.caixa,
+.clima,
+.chuva,
+.bateria {
+    background: #15191d;
+    border: 1px solid #252b31;
+    border-radius: 22px;
+}
+
+.caixa {
+    transition:
+        transform .2s ease,
+        border-color .2s ease;
+}
+
+.caixa:hover {
+    transform: translateY(-3px);
+}
+
+
+/* CAIXA PRINCIPAL */
+
+.caixa-principal {
+    padding: 28px 35px;
+    margin-bottom: 22px;
+}
+
+.titulo-caixa {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.titulo-caixa h2 {
+    margin: 7px 0;
+}
+
+.tag-principal,
+.sensor-real {
+    display: inline-block;
+    background: #c7a95b;
+    color: #111;
+    border-radius: 20px;
+    padding: 5px 10px;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.sensor-real {
+    background: #2196f3;
+    color: white;
+}
+
+.capacidade {
+    color: #888;
+    font-size: 14px;
+}
+
+.status-indicador {
+    color: #888;
+    font-size: 13px;
+}
+
+.conteudo-principal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 70px;
+    padding: 20px 0 5px;
+}
+
+
+/* CAIXAS SECUNDÁRIAS */
+
+.caixas-secundarias {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+}
+
+.caixa-menor {
+    padding: 25px;
+    text-align: center;
+}
+
+.caixa-menor .titulo-caixa {
+    text-align: left;
+}
+
+
+/* RESERVATÓRIO */
+
+.reservatorio {
+    position: relative;
+    width: 120px;
+    height: 180px;
+    margin: 25px auto 18px;
+    border: 3px solid #4c5359;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #0d1012;
+}
+
+.reservatorio-grande {
+    width: 150px;
+    height: 210px;
+    margin: 10px 0;
+}
+
+.agua {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background: #2196f3;
+    transition: height .8s ease;
+    animation: movimentoAgua 3s ease-in-out infinite;
+}
+
+
+/* INFORMAÇÕES */
+
+.informacoes-caixa {
+    min-width: 220px;
+}
+
+.nivel {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.nivel-grande {
+    font-size: 72px;
+}
+
+.litros {
+    margin-top: 5px;
+    color: #aaa;
+    font-size: 18px;
+}
+
+.status-texto {
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.ver-detalhes {
+    margin-top: 22px;
+    color: #c7a95b;
+    font-size: 13px;
+}
+
+
+/* STATUS */
+
+.status-normal {
+    border: 1px solid #2ecc71;
+}
+
+.status-atencao {
+    border: 1px solid #f1c40f;
+}
+
+.status-baixo {
+    border: 1px solid #e74c3c;
+}
+
+
+/* CLIMA */
+
+.clima,
+.chuva,
+.bateria {
+    padding: 25px;
+    margin-top: 22px;
+}
+
+.clima h2,
+.chuva h2,
+.bateria h2 {
+    margin-top: 0;
+}
+
+.dados-clima {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.dado-clima {
+    background: #0d1012;
+    border-radius: 15px;
+    padding: 20px 10px;
+    text-align: center;
+}
+
+.valor-clima {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.label-clima {
+    color: #888;
+    font-size: 13px;
+    margin-top: 7px;
+}
+
+
+/* CHUVA */
+
+.chuva {
+    text-align: center;
+}
+
+#status-chuva {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+
+/* BATERIA */
+
+.dados-bateria {
+    display: flex;
+    align-items: baseline;
+    gap: 25px;
+}
+
+.valor-bateria {
+    font-size: 45px;
+    font-weight: bold;
+}
+
+.tensao-bateria {
+    color: #888;
+    font-size: 22px;
+}
+
+.barra-bateria {
+    height: 22px;
+    margin: 20px 0;
+    background: #0b0d0f;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progresso-bateria {
+    height: 100%;
+    background: #2ecc71;
+    transition: width .8s ease;
+}
+
+
+/* ÁGUA */
+
+@keyframes movimentoAgua {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-2px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+
+/* CELULAR */
+
+@media (max-width: 650px) {
+
+    .dashboard {
+        padding: 20px 14px 40px;
+    }
+
+    .cabecalho {
+        display: block;
+    }
+
+    .cabecalho h1 {
+        font-size: 28px;
+    }
+
+    .sistema {
+        text-align: left;
+        margin-top: 15px;
+    }
+
+    .caixa-principal {
+        padding: 22px;
+    }
+
+    .conteudo-principal {
+        gap: 25px;
+    }
+
+    .reservatorio-grande {
+        width: 110px;
+        height: 170px;
+    }
+
+    .nivel-grande {
+        font-size: 48px;
+    }
+
+    .informacoes-caixa {
+        min-width: 0;
+    }
+
+    .caixas-secundarias {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    .caixa-menor {
+        padding: 16px 10px;
+    }
+
+    .caixa-menor h2 {
+        font-size: 18px;
+    }
+
+    .caixa-menor .reservatorio {
+        width: 85px;
+        height: 135px;
+    }
+
+    .caixa-menor .nivel {
+        font-size: 36px;
+    }
+
+    .caixa-menor .litros {
+        font-size: 15px;
+    }
+
+    .dados-clima {
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 8px;
+    }
+
+    .dado-clima {
+        padding: 15px 5px;
+    }
+
+    .valor-clima {
+        font-size: 20px;
+    }
+
+    .label-clima {
+        font-size: 11px;
+    }
+}
+
+
+@media (max-width: 390px) {
+
+    .conteudo-principal {
+        gap: 15px;
+    }
+
+    .caixas-secundarias {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =====================================================
+   NOVO CARD - CAIXA 1
+===================================================== */
+
+.caixa-nova {
+    display: flex;
+    align-items: center;
+    min-height: 260px;
+    padding: 25px;
+    gap: 28px;
+    overflow: hidden;
+}
+
+/* LADO ESQUERDO */
+
+.caixa-imagem-area {
+    width: 38%;
+    min-width: 180px;
+    text-align: center;
+}
+
+.tag-sensor {
+    display: inline-block;
+    padding: 6px 11px;
+    margin-bottom: 18px;
+
+    border-radius: 20px;
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+
+    color: #59e87c;
+    background: rgba(46, 204, 113, 0.10);
+    border: 1px solid rgba(46, 204, 113, 0.25);
+}
+
+
+/* ILUSTRAÇÃO DA CAIXA */
+
+.caixa-ilustracao {
+    position: relative;
+    width: 125px;
+    margin: 0 auto;
+}
+
+.tampa-caixa {
+    width: 105px;
+    height: 16px;
+
+    margin: 0 auto -4px;
+
+    border-radius: 50% 50% 20% 20%;
+
+    background: linear-gradient(
+        180deg,
+        #188bd0,
+        #07517f
+    );
+
+    border: 2px solid #249fe5;
+}
+
+.corpo-caixa {
+    position: relative;
+
+    width: 125px;
+    height: 135px;
+
+    overflow: hidden;
+
+    border-radius: 16px 16px 25px 25px;
+
+    background: #092e49;
+
+    border: 2px solid #168bc9;
+
+    box-shadow:
+        inset 0 0 20px rgba(0, 149, 255, .15),
+        0 8px 25px rgba(0,0,0,.30);
+}
+
+.corpo-caixa span {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    pointer-events: none;
+    font-size: 19px;
+    font-weight: 800;
+    color: white;
+}
+
+.agua-caixa-nova {
+    position: absolute;
+
+    left: 0;
+    bottom: 0;
+
+    width: 100%;
+
+    background: linear-gradient(
+        180deg,
+        #29c5ff,
+        #0579c7
+    );
+
+    transition: height .8s ease;
+}
+
+
+/* LADO DIREITO */
+
+.caixa-info-nova {
+    flex: 1;
+}
+
+.caixa-info-nova h2 {
+    margin: 0;
+
+    font-size: 24px;
+    color: #f5f5f5;
+}
+
+.capacidade-nova {
+    margin-top: 5px;
+
+    font-size: 12px;
+    color: #8d939a;
+}
+
+
+/* MEDIDOR */
+
+.medidor-nivel {
+    display: flex;
+    align-items: center;
+
+    gap: 25px;
+
+    margin-top: 22px;
+}
+
+.anel-nivel {
+    width: 105px;
+    height: 105px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 50%;
+
+    border: 9px solid #13aee8;
+
+    box-shadow:
+        0 0 20px rgba(19,174,232,.18),
+        inset 0 0 15px rgba(19,174,232,.08);
+}
+
+.nivel-centro {
+    font-size: 25px;
+    font-weight: 800;
+    color: white;
+}
+
+.dados-nivel {
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+.litros-novo {
+    font-size: 18px;
+    font-weight: 700;
+    color: #f5f5f5;
+}
+
+.status-novo {
+    font-size: 13px;
+    color: #8d939a;
+}
+
+
+/* BOTÃO */
+
+.novo-botao {
+    display: inline-block;
+
+    margin-top: 20px;
+
+    padding: 9px 20px;
+
+    border: 1px solid #d4af37;
+    border-radius: 25px;
+
+    color: #d4af37;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    transition: .2s;
+}
+
+.caixa-nova:hover .novo-botao {
+    background: #d4af37;
+    color: #0b0d0f;
+}
+
+
+/* CELULAR */
+
+@media (max-width: 700px) {
+
+    .caixa-nova {
+        flex-direction: column;
+        padding: 22px 16px;
+    }
+
+    .caixa-imagem-area {
+        width: 100%;
+    }
+
+    .caixa-info-nova {
+        width: 100%;
+        text-align: center;
+    }
+
+    .medidor-nivel {
+        justify-content: center;
+    }
+
+    .dados-nivel {
+        text-align: left;
+    }
+}
+/* COMPACTAR CARD DA CAIXA 1 */
+
+.caixa-nova {
+    min-height: 0;
+    padding: 16px 20px;
+    gap: 20px;
+}
+
+.caixa-imagem-area {
+    min-width: 135px;
+}
+
+.tag-sensor {
+    margin-bottom: 8px;
+    padding: 4px 9px;
+}
+
+/* Caixa azul menor */
+.caixa-ilustracao {
+    width: 95px;
+}
+
+.tampa-caixa {
+    width: 82px;
+    height: 12px;
+}
+
+.corpo-caixa {
+    width: 95px;
+    height: 100px;
+}
+
+.corpo-caixa span {
+    font-size: 15px;
+}
+
+/* Círculo do nível com mais destaque na página principal */
+.medidor-nivel {
+    margin-top: 12px;
+    gap: 20px;
+}
+
+.anel-nivel {
+    width: 108px;
+    height: 108px;
+    border-width: 8px;
+}
+
+.nivel-centro {
+    font-size: 27px;
+}
+
+.litros-novo {
+    font-size: 16px;
+}
+
+.novo-botao {
+    margin-top: 12px;
+    padding: 7px 16px;
+}
+
+.caixa-principal-nova {
+    min-height: 0;
+    margin-bottom: 18px;
+}
+
+.caixa-ilustracao-principal {
+    width: 110px;
+}
+
+.corpo-caixa-principal {
+    width: 110px;
+    height: 115px;
+}
+
+.anel-principal {
+    width: 116px;
+    height: 116px;
+}
+
+@media (max-width: 700px) {
+    .caixa-principal-nova {
+        flex-direction: column;
+    }
+}
+
+/* =========================================================
+   STATUS DO SISTEMA
+========================================================= */
+
+.status-sistema {
+    margin-top: 14px;
+    padding: 16px 20px;
+
+    background: #15191d;
+    border: 1px solid #252b31;
+    border-radius: 18px;
+
+    text-align: center;
+}
+
+.status-sistema-titulo {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #c7a95b;
+
+    font-size: 9px;
+    font-weight: 800;
+
+    letter-spacing: 2px;
+}
+
+.status-sistema #conexao {
+    color: #f2f2f2;
+
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.status-sistema #ultima-atualizacao {
+    margin-top: 4px;
+
+    color: #777f86;
+
+    font-size: 11px;
+}
+
+/* TÍTULOS DAS SEÇÕES */
+.clima h2,
+.bateria h2 {
+    color: #c7a95b;
+}
+
+/* =========================================
+   RODAPÉ VISUAL
+========================================= */
+
+.footer-sitio {
+    width: 100%;
+    height: 180px;
+    margin-top: 0 !important;
+
+    background-image: url("icons/footer-sitio.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    opacity: 0.55;
+    border-radius: 18px;
+}
+
+@media (max-width: 650px) {
+    .footer-sitio {
+        height: 130px;
+        background-size: cover;
+    }
+}
+
+
+/* =========================================
+   BORDAS DOURADAS DOS CARDS
+========================================= */
+
+.caixa,
+.caixa-nova,
+.caixa-principal,
+.clima,
+.clima-unificado,
+.bateria,
+.status-sistema,
+.resumo-caixa,
+.info-card,
+.historico-card,
+.alertas-card {
+    border: 1px solid rgba(199, 169, 91, 0.65) !important;
+}
+
+
+/* BORDA EXTERNA DA PÁGINA */
+
+body {
+    border: 2px solid rgba(199, 169, 91, 0.60);
+    border-radius: 22px;
+    box-sizing: border-box;
+    min-height: 100vh;
+}
+.dashboard {
+    max-width: 1050px;
+    margin: 0 auto;
+
+    /* espaço entre os cards e as laterais */
+    padding-left: 40px !important;
+    padding-right: 40px !important;
+}
+
+.dashboard {
+    padding-left: 60px !important;
+    padding-right: 60px !important;
+}
+/* REMOVE O ESPAÇO ENTRE O ÚLTIMO CARD E O RODAPÉ */
+
+.dashboard {
+    padding-bottom: 8px !important;
+    margin-bottom: 0 !important;
+}
+
+.status-sistema {
+    margin-bottom: 0 !important;
+}
+
+/* LARGURA GERAL DO SISTEMA NO PC */
+@media (min-width: 701px) {
+
+    .dashboard {
+        width: calc(100% - 160px) !important;
+        max-width: 1200px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+    }
+
+    .footer-sitio {
+        width: calc(100% - 160px) !important;
+        max-width: 1200px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+}
+
+.caixa-principal,
+.caixas-secundarias,
+.clima-unificado,
+.bateria,
+.status-sistema {
+    margin-left: 20px !important;
+    margin-right: 40px !important;
+}
+
+/* ACESSO À TELA DE DETALHES DO CLIMA */
+.clima-unificado {
+    cursor: pointer;
+}
+.clima-ver-detalhes {
+    margin-top: 16px;
+}
+
+
+/* =========================================================
+   V7.4 - AJUSTES VISUAIS DOS CARDS DAS CAIXAS
+   - titulo/capacidade centralizados no card inteiro
+   - anel percentual maior e com mais respiro
+========================================================= */
+
+@media (min-width: 701px) {
+    .caixa-nova {
+        position: relative;
+    }
+
+    .caixa-info-nova {
+        padding-top: 48px;
+    }
+
+    .caixa-info-nova > h2 {
+        position: absolute;
+        top: 14px;
+        left: 0;
+        right: 0;
+        width: 100%;
+        margin: 0;
+        text-align: center;
+        pointer-events: none;
+    }
+
+    .caixa-info-nova > .capacidade-nova {
+        position: absolute;
+        top: 47px;
+        left: 0;
+        right: 0;
+        width: 100%;
+        margin: 0;
+        text-align: center;
+        pointer-events: none;
+    }
+
+    .caixa-info-nova .medidor-nivel {
+        margin-top: 6px;
+    }
+}
+
+/* Mais espaco interno para percentuais como 89.0% / 100.0% */
+.anel-nivel {
+    width: 124px;
+    height: 124px;
+    border-width: 8px;
+}
+
+.anel-principal {
+    width: 132px;
+    height: 132px;
+}
+
+.nivel-centro {
+    font-size: 26px;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+    .caixa-info-nova {
+        padding-top: 0;
+    }
+
+    .caixa-info-nova > h2,
+    .caixa-info-nova > .capacidade-nova {
+        position: static;
+        width: auto;
+        text-align: center;
+    }
+}

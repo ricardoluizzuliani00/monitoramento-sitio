@@ -1,0 +1,583 @@
+/* =========================================================
+   SÍTIO 4 IRMÃOS
+   DETALHES DAS CAIXAS - VISUAL NOVO
+========================================================= */
+
+.pagina-detalhes {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 16px 16px 28px;
+}
+
+/* TOPO */
+
+.topo-detalhes {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #2b3137;
+}
+
+.voltar {
+    justify-self: start;
+    padding: 9px 18px;
+    color: #e8bd48;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 800;
+    border: 1px solid #c79e27;
+    border-radius: 24px;
+    transition: .2s;
+}
+
+.voltar:hover {
+    background: #c7a95b;
+    color: #0b0d0f;
+}
+
+.titulo-detalhes {
+    text-align: center;
+}
+
+.titulo-detalhes span {
+    color: #d6ac38;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 2.5px;
+}
+
+.titulo-detalhes h1 {
+    margin: 2px 0 3px;
+    color: #f6f6f6;
+    font-size: 31px;
+    line-height: 1.05;
+}
+
+.titulo-detalhes p {
+    margin: 0;
+    color: #b4bbc0;
+    font-size: 13px;
+}
+
+.online {
+    justify-self: end;
+    padding: 8px 16px;
+    color: #f4f4f4;
+    background: #0c1013;
+    border: 1px solid #47515a;
+    border-radius: 24px;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: .5px;
+}
+
+/* CARD PRINCIPAL */
+
+.resumo-caixa {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.1fr .85fr 1px 1fr;
+    align-items: center;
+    gap: 34px;
+    min-height: 265px;
+    padding: 20px 45px;
+    background:
+        radial-gradient(circle at 20% 50%, rgba(0,157,255,.10), transparent 32%),
+        linear-gradient(180deg, #11171b 0%, #0e1418 100%);
+    border: 1px solid #d3a82f;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+/* RESERVATÓRIO */
+
+.bloco-reservatorio {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.reservatorio-detalhes {
+    position: relative;
+    width: 185px;
+    height: 230px;
+    margin: 0;
+    overflow: hidden;
+    background: #092e49;
+    border: 3px solid #263c4b;
+    border-radius: 44% 44% 18px 18px / 11% 11% 18px 18px;
+    box-shadow:
+        inset 0 0 25px rgba(0,149,255,.15),
+        0 12px 28px rgba(0,0,0,.35);
+}
+
+.reservatorio-detalhes::before {
+    content: "";
+    position: absolute;
+    top: 7px;
+    left: 50%;
+    width: 102px;
+    height: 12px;
+    transform: translateX(-50%);
+    background: #111d24;
+    border: 2px solid #263c4b;
+    border-radius: 50%;
+    z-index: 5;
+}
+
+.reservatorio-detalhes::after {
+    content: "";
+    position: absolute;
+    left: 18px;
+    top: 48px;
+    width: 11px;
+    height: 112px;
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,.35) 0 1px,
+        transparent 1px 13px
+    );
+    z-index: 4;
+}
+
+.reservatorio-detalhes .agua {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background: linear-gradient(180deg, #28c7ff 0%, #078fd8 48%, #056eac 100%);
+    transition: height .8s ease;
+    box-shadow: 0 -2px 13px rgba(39,197,255,.42);
+}
+
+/* NÍVEL */
+
+.dados-principais {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 215px;
+}
+
+.nivel-detalhes {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 145px;
+    height: 145px;
+    border: 10px solid #13b7ee;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 34px;
+    font-weight: 900;
+    background: radial-gradient(
+        circle at center,
+        rgba(22,35,42,.80),
+        rgba(10,15,18,.95)
+    );
+    box-shadow:
+        0 0 22px rgba(19,174,232,.18),
+        inset 0 0 20px rgba(19,174,232,.08);
+}
+.label {
+    margin-top: 8px;
+    color: #c5c9cc;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+}
+
+.litros-detalhes {
+    margin-top: 2px;
+    color: #fff;
+    font-size: 23px;
+    font-weight: 900;
+}
+
+/* STATUS */
+
+.divisor-status {
+    width: 1px;
+    height: 180px;
+    background: #566068;
+}
+
+.painel-status {
+    min-height: 185px;
+    padding: 20px 24px;
+    background: rgba(9,14,18,.55);
+    border: 1px solid #43505a;
+    border-radius: 14px;
+}
+
+.painel-status-topo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #f3f3f3;
+    font-size: 16px;
+}
+
+.gota-status {
+    font-size: 28px;
+}
+
+.status-detalhes {
+    display: block;
+    margin-top: 8px;
+    padding: 0;
+    color: #f4f4f4;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    font-size: 18px;
+    font-weight: 900;
+}
+
+.linha-status {
+    height: 1px;
+    margin: 16px 0;
+    background: #46515a;
+}
+
+.texto-status {
+    margin: 0;
+    color: #f1f1f1;
+    font-size: 14px;
+    line-height: 1.45;
+}
+
+/* CARDS */
+
+.cards-informacao {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 20px;
+    margin-top: 14px;
+}
+
+.info-card {
+    padding: 14px 20px;
+    background: linear-gradient(180deg,#11171b,#0f1418);
+    border: 1px solid #d3a82f;
+    border-radius: 14px;
+    transition: .2s;
+}
+
+.info-card:hover {
+    transform: translateY(-2px);
+}
+
+.info-card span {
+    display: block;
+    margin-bottom: 5px;
+    color: #c8cdd0;
+    font-size: 12px;
+}
+
+.info-card strong {
+    color: #f6f6f6;
+    font-size: 20px;
+}
+
+/* HISTÓRICO */
+
+.historico-card {
+    margin-top: 14px;
+    padding: 17px 24px 20px;
+    background: linear-gradient(180deg,#11171b,#0f1418);
+    border: 1px solid #d3a82f;
+    border-radius: 18px;
+}
+
+.cabecalho-historico {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.tag-historico {
+    color: #d6ac38;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+.cabecalho-historico h2 {
+    margin: 3px 0 0;
+    color: #f2f2f2;
+    font-size: 20px;
+}
+
+.filtros-historico {
+    display: flex;
+    gap: 12px;
+}
+
+.filtro {
+    min-width: 78px;
+    padding: 8px 14px;
+    color: #f3f3f3;
+    background: #0d1012;
+    border: 1px solid #765f1d;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.filtro:hover {
+    border-color: #c7a95b;
+    color: #c7a95b;
+}
+
+.filtro.ativo {
+    color: #101214;
+    background: #efc353;
+    border-color: #efc353;
+}
+
+.grafico-container {
+    position: relative;
+    height: 280px;
+    margin-top: 12px;
+}
+
+.sem-historico {
+    margin: 10px 0 0;
+    padding: 8px 12px;
+    color: #c7a95b;
+    background: rgba(199,169,91,.08);
+    border: 1px solid rgba(199,169,91,.20);
+    border-radius: 8px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* ALERTAS */
+
+.alertas-card {
+    margin-top: 14px;
+    padding: 16px 20px;
+    background: #11171b;
+    border: 1px solid #d3a82f;
+    border-radius: 16px;
+}
+
+.alertas-card h2 {
+    margin: 0 0 8px;
+    color: #f2f2f2;
+    font-size: 17px;
+}
+
+#alerta-nivel {
+    color: #aeb5ba;
+    font-size: 13px;
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 850px) {
+    .pagina-detalhes {
+        padding: 12px 10px 24px;
+    }
+
+    .topo-detalhes {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .titulo-detalhes {
+        grid-column: 1 / 3;
+        grid-row: 2;
+        margin-top: 14px;
+    }
+
+    .resumo-caixa {
+        grid-template-columns: 1fr 1fr;
+        gap: 22px;
+        padding: 20px 16px;
+    }
+
+    .divisor-status {
+        display: none;
+    }
+
+    .painel-status {
+        grid-column: 1 / 3;
+        min-height: 0;
+    }
+
+    .reservatorio-detalhes {
+        width: 125px;
+        height: 175px;
+    }
+
+    .nivel-detalhes {
+        width: 105px;
+        height: 105px;
+        border-width: 8px;
+        font-size: 25px;
+    }
+
+    .cards-informacao {
+        gap: 8px;
+    }
+
+    .info-card {
+        padding: 12px 9px;
+        text-align: center;
+    }
+
+    .cabecalho-historico {
+        display: block;
+    }
+
+    .filtros-historico {
+        margin-top: 12px;
+    }
+
+    .grafico-container {
+        height: 235px;
+    }
+}
+
+@media (max-width: 480px) {
+    .voltar {
+        padding: 7px 11px;
+        font-size: 12px;
+    }
+
+    .online {
+        padding: 7px 10px;
+        font-size: 11px;
+    }
+
+    .resumo-caixa {
+        grid-template-columns: 1fr;
+    }
+
+    .dados-principais,
+    .painel-status {
+        grid-column: 1;
+    }
+
+    .painel-status {
+        width: 100%;
+    }
+
+    .cards-informacao {
+        grid-template-columns: 1fr;
+    }
+
+    .filtros-historico {
+        gap: 6px;
+    }
+
+    .filtro {
+        min-width: 0;
+        flex: 1;
+    }
+}
+
+
+/* =========================================================
+   AJUSTES V7 - PROPORÇÃO DO CARD E RELATÓRIOS
+========================================================= */
+
+/* A ilustração da caixa usa o mesmo componente do dashboard,
+   mas recebe um pouco mais de presença na página de detalhes. */
+.resumo-caixa > .caixa-ilustracao {
+    width: 125px;
+}
+
+.resumo-caixa > .caixa-ilustracao .tampa-caixa {
+    width: 106px;
+    height: 15px;
+}
+
+.resumo-caixa > .caixa-ilustracao .corpo-caixa {
+    width: 125px;
+    height: 135px;
+}
+
+.resumo-caixa > .caixa-ilustracao .corpo-caixa span {
+    font-size: 18px;
+    text-align: center;
+}
+
+/* O nível é o dado principal: ganha mais destaque no desktop. */
+.resumo-caixa .nivel-detalhes {
+    width: 178px;
+    height: 178px;
+    border-width: 11px;
+    font-size: 40px;
+}
+
+.resumo-caixa .litros-detalhes {
+    font-size: 23px;
+}
+
+.acoes-historico {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.grupo-pdf {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.botao-pdf {
+    padding: 8px 15px;
+    border: 1px solid #d4af37;
+    border-radius: 20px;
+    background: #d4af37;
+    color: #111418;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: .2s;
+}
+
+.botao-pdf.secundario {
+    background: transparent;
+    color: #e8bd48;
+}
+
+.botao-pdf:hover {
+    filter: brightness(1.08);
+}
+
+.botao-pdf:disabled {
+    opacity: .6;
+    cursor: wait;
+}
+
+@media (max-width: 700px) {
+    .acoes-historico {
+        margin-top: 12px;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .grupo-pdf {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .resumo-caixa .nivel-detalhes {
+        width: 120px;
+        height: 120px;
+        border-width: 8px;
+        font-size: 29px;
+    }
+}

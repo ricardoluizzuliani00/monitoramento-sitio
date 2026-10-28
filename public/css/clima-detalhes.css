@@ -1,0 +1,157 @@
+
+/* Página de detalhes do clima - complementa detalhes.css */
+
+.resumo-clima {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 18px;
+    padding: 24px;
+    background: #15191d;
+    border: 1px solid rgba(199, 169, 91, 0.65);
+    border-radius: 18px;
+}
+
+.clima-atual-item {
+    padding: 24px 14px;
+    background: #0d1012;
+    border: 1px solid #252b31;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.clima-atual-item span {
+    display: block;
+    margin-bottom: 10px;
+    color: #8d939a;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.clima-atual-item strong {
+    color: #fff;
+    font-size: 30px;
+}
+
+.clima-info {
+    margin-bottom: 18px;
+}
+
+.grade-graficos-clima {
+    display: grid;
+    gap: 18px;
+}
+
+.grafico-clima-card {
+    padding: 18px;
+    background: #0d1012;
+    border: 1px solid #252b31;
+    border-radius: 15px;
+}
+
+.grafico-clima-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.grafico-clima-topo > div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.grafico-clima-topo strong {
+    font-size: 15px;
+}
+
+.faixa-clima {
+    color: #c7a95b;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.grafico-clima-card .grafico-container {
+    height: 245px;
+}
+
+@media (max-width: 700px) {
+    .resumo-clima {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 16px;
+    }
+
+    .clima-atual-item {
+        padding: 17px 10px;
+    }
+
+    .clima-atual-item strong {
+        font-size: 25px;
+    }
+
+    .grafico-clima-card {
+        padding: 14px 10px;
+    }
+
+    .grafico-clima-card .grafico-container {
+        height: 220px;
+    }
+
+    .grafico-clima-topo {
+        align-items: flex-start;
+    }
+}
+
+
+.acoes-historico {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.botao-pdf {
+    padding: 8px 16px;
+    color: #101214;
+    background: #efc353;
+    border: 1px solid #efc353;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: .2s;
+}
+
+.botao-pdf:hover {
+    filter: brightness(1.08);
+}
+
+.botao-pdf:disabled {
+    opacity: .65;
+    cursor: wait;
+}
+
+
+@media (max-width: 700px) {
+    .acoes-historico {
+        margin-top: 12px;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .acoes-historico .filtros-historico {
+        margin-top: 0;
+    }
+
+    .botao-pdf {
+        width: 100%;
+    }
+}
+
+.grupo-pdf { display:flex; gap:8px; flex-wrap:wrap; }
+.botao-pdf.secundario { background:transparent; color:#efc353; }
+@media (max-width:700px){ .grupo-pdf{display:grid;grid-template-columns:1fr 1fr;} }

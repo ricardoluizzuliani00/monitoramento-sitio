@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <link rel="icon" type="image/png" href="/icons/logo-sitio-icon.png">    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sítio 4 Irmãos</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0b0d0f">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* STATUS DO ESP32 - rodapé do dashboard */
+        .status-sistema {
+            margin-top: 14px;
+            padding: 16px 20px;
+            background: #15191d;
+            border: 1px solid #252b31;
+            border-radius: 18px;
+            text-align: center;
+        }
+
+        .status-sistema-titulo {
+            display: block;
+            margin-bottom: 7px;
+            color: #c7a95b;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .status-sistema #conexao {
+            color: #f2f2f2;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .status-sistema #ultima-atualizacao {
+            margin-top: 4px;
+            color: #777f86;
+            font-size: 11px;
+        }
+        
+.status-sistema .manutencao {
+    margin-top: 14px;
+}
+
+.status-sistema .btn-manutencao {
+    color: #c7a95b;
+    border-color: #45402f;
+}
+
+.status-sistema .btn-manutencao:hover {
+    color: #e06c6c;
+    border-color: #5a2e2e;
+}
+
+    </style>
+
+
+    <style>
+        /* =========================================================
+           CONDIÇÕES DO SÍTIO + CHUVA - CARD ÚNICO
+        ========================================================= */
+
+        .clima-unificado {
+            position: relative;
+            margin-top: 14px;
+            padding: 24px 24px 34px;
+            background: #15191d;
+            border: 1px solid #252b31;
+            border-radius: 18px;
+            text-align: center;
+        }
+
+        .clima-unificado h2 {
+            margin: 0 0 20px;
+            text-align: center;
+        }
+
+        .clima-unificado .dados-clima {
+            margin-bottom: 18px;
+        }
+
+        .condicao-geral {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 42px;
+            margin-top: 12px;
+            font-size: 19px;
+            font-weight: 800;
+            text-align: center;
+        }
+
+        .atualizacao-clima {
+            position: absolute;
+            right: 18px;
+            bottom: 9px;
+            color: #7f878e;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 650px) {
+            .clima-unificado {
+                padding: 20px 16px 34px;
+            }
+
+            .condicao-geral {
+                font-size: 17px;
+            }
+
+            .atualizacao-clima {
+                right: 14px;
+                bottom: 8px;
+                font-size: 10px;
+            }
+        }
+    </style>
+
+    <style>
+        /* =========================================================
+           MANUTENÇÃO - BOTÃO DE LIMPAR HISTÓRICO (COM SENHA)
+        ========================================================= */
+
+        .manutencao {
+            margin-top: 14px;
+            text-align: center;
+        }
+
+        .btn-manutencao {
+            padding: 10px 18px;
+            background: transparent;
+            color: #777f86;
+            border: 1px solid #252b31;
+            border-radius: 14px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-manutencao:hover {
+            color: #e06c6c;
+            border-color: #5a2e2e;
+        }
+
+        .modal-reset {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.72);
+        }
+
+        .modal-reset[hidden] {
+            display: none;
+        }
+
+        .modal-reset-caixa {
+            width: 100%;
+            max-width: 380px;
+            padding: 22px;
+            background: #15191d;
+            border: 1px solid #252b31;
+            border-radius: 18px;
+            color: #f2f2f2;
+            text-align: left;
+        }
+
+        .modal-reset-caixa h3 {
+            margin: 0 0 10px;
+            color: #e06c6c;
+            font-size: 16px;
+        }
+
+        .modal-reset-caixa p {
+            margin: 0 0 14px;
+            color: #b9c0c6;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .modal-reset-check {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 14px;
+            color: #b9c0c6;
+            font-size: 12px;
+        }
+
+        .modal-reset-caixa input[type="password"] {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px 14px;
+            background: #0b0d0f;
+            color: #f2f2f2;
+            border: 1px solid #252b31;
+            border-radius: 12px;
+            font-size: 14px;
+        }
+
+        .reset-mensagem {
+            min-height: 18px;
+            margin-top: 10px;
+            color: #b9c0c6;
+            font-size: 12px;
+        }
+
+        .reset-mensagem.erro {
+            color: #e06c6c;
+        }
+
+        .reset-mensagem.ok {
+            color: #5fbf7a;
+        }
+
+        .modal-reset-botoes {
+            display: flex;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .modal-reset-botoes button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .modal-reset-botoes button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-reset-cancelar {
+            background: #252b31;
+            color: #f2f2f2;
+        }
+
+        .btn-reset-confirmar {
+            background: #b3422f;
+            color: #ffffff;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- =====================================================
+         CABEÇALHO
+    ====================================================== -->
+<header class="cabecalho cabecalho-sitio"></header>
+
+</div>
+</header>
+    <!-- =====================================================
+         CAIXA PRINCIPAL - 1000 L
+    ====================================================== -->
+
+    <section
+        id="card-caixa-3"
+        class="caixa caixa-principal caixa-nova caixa-principal-nova"
+        onclick="window.location.href='caixa.html?id=principal'"
+        style="cursor:pointer;"
+    >
+
+        <div class="caixa-imagem-area">
+
+            <div id="sensor-caixa-3" class="tag-sensor">
+                ● SENSOR OFFLINE
+            </div>
+
+            <div class="caixa-ilustracao caixa-ilustracao-principal">
+
+                <div class="tampa-caixa"></div>
+
+                <div class="corpo-caixa corpo-caixa-principal">
+
+                    <div
+                        id="agua-caixa-3"
+                        class="agua-caixa-nova"
+                        style="height:0%;"
+                    ></div>
+
+                    <span>1000 L</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="caixa-info-nova">
+
+            <h2>Caixa Principal</h2>
+
+            <div class="capacidade-nova">
+                Capacidade: 1000 litros
+            </div>
+
+            <div class="medidor-nivel">
+
+                <div class="anel-nivel anel-principal">
+
+                    <div
+                        id="nivel-caixa-3"
+                        class="nivel-centro"
+                    >
+                        --%
+                    </div>
+
+                </div>
+
+
+                <div class="dados-nivel">
+
+                    <div
+                        id="litros-caixa-3"
+                        class="litros-novo"
+                    >
+                        💧 -- litros
+                    </div>
+
+                    <div
+                        id="status-caixa-3"
+                        class="status-novo"
+                    >
+                        ⚪ Aguardando sensor
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="ver-detalhes novo-botao">
+                Ver detalhes →
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CAIXA 1 + CAIXA 2
+    ====================================================== -->
+
+    <section class="caixas-secundarias">
+
+
+        <!-- CAIXA 1 -->
+
+        <div
+            id="card-caixa-1"
+            class="caixa caixa-menor caixa-nova"
+            onclick="window.location.href='caixa.html?id=1'"
+            style="cursor:pointer;"
+        >
+
+            <div class="caixa-imagem-area">
+
+                <div id="sensor-caixa-1" class="tag-sensor">
+                    ○ AGUARDANDO SENSOR
+                </div>
+
+                <div class="caixa-ilustracao">
+
+                    <div class="tampa-caixa"></div>
+
+                    <div class="corpo-caixa">
+
+                        <div
+                            id="agua-caixa-1"
+                            class="agua-caixa-nova"
+                            style="height:0%;"
+                        ></div>
+
+                        <span>500 L</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="caixa-info-nova">
+
+                <h2>Caixa 1</h2>
+
+                <div class="capacidade-nova">
+                    Capacidade: 500 litros
+                </div>
+
+
+                <div class="medidor-nivel">
+
+                    <div class="anel-nivel">
+
+                        <div
+                            id="nivel-caixa-1"
+                            class="nivel-centro"
+                        >
+                            --%
+                        </div>
+
+                    </div>
+
+
+                    <div class="dados-nivel">
+
+                        <div
+                            id="litros-caixa-1"
+                            class="litros-novo"
+                        >
+                            💧 -- litros
+                        </div>
+
+                        <div
+                            id="status-caixa-1"
+                            class="status-novo"
+                        >
+                            ⚪ Aguardando dados...
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="ver-detalhes novo-botao">
+                    Ver detalhes →
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CAIXA 2 -->
+
+        <div
+            id="card-caixa-2"
+            class="caixa caixa-menor caixa-nova"
+            onclick="window.location.href='caixa.html?id=2'"
+            style="cursor:pointer;"
+        >
+
+            <div class="caixa-imagem-area">
+
+                <div id="sensor-caixa-2" class="tag-sensor">
+                    ○ AGUARDANDO SENSOR
+                </div>
+
+                <div class="caixa-ilustracao">
+
+                    <div class="tampa-caixa"></div>
+
+                    <div class="corpo-caixa">
+
+                        <div
+                            id="agua-caixa-2"
+                            class="agua-caixa-nova"
+                            style="height:0%;"
+                        ></div>
+
+                        <span>500 L</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="caixa-info-nova">
+
+                <h2>Caixa 2</h2>
+
+                <div class="capacidade-nova">
+                    Capacidade: 500 litros
+                </div>
+
+
+                <div class="medidor-nivel">
+
+                    <div class="anel-nivel">
+
+                        <div
+                            id="nivel-caixa-2"
+                            class="nivel-centro"
+                        >
+                            --%
+                        </div>
+
+                    </div>
+
+
+                    <div class="dados-nivel">
+
+                        <div
+                            id="litros-caixa-2"
+                            class="litros-novo"
+                        >
+                            💧 -- litros
+                        </div>
+
+                        <div
+                            id="status-caixa-2"
+                            class="status-novo"
+                        >
+                            ⚪ Aguardando sensor
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="ver-detalhes novo-botao">
+                    Ver detalhes →
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CONDIÇÕES DO SÍTIO + CHUVA
+    ====================================================== -->
+
+    <section class="clima clima-unificado" onclick="window.location.href='clima.html'" style="cursor:pointer;">
+
+        <h2>
+            🌦️ Condições do Sítio
+        </h2>
+
+        <div class="dados-clima">
+
+            <!-- TEMPERATURA -->
+            <div class="dado-clima">
+
+                <div
+                    class="valor-clima"
+                    id="temperatura"
+                >
+                    --°C
+                </div>
+
+                <div class="label-clima">
+                    Temperatura
+                </div>
+
+            </div>
+
+
+            <!-- UMIDADE -->
+            <div class="dado-clima">
+
+                <div
+                    class="valor-clima"
+                    id="umidade"
+                >
+                    --%
+                </div>
+
+                <div class="label-clima">
+                    Umidade
+                </div>
+
+            </div>
+
+
+            <!-- PRESSÃO -->
+            <div class="dado-clima">
+
+                <div
+                    class="valor-clima"
+                    id="pressao"
+                >
+                    ---- hPa
+                </div>
+
+                <div class="label-clima">
+                    Pressão
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CONDIÇÃO GERAL DO TEMPO -->
+        <div
+            id="status-chuva"
+            class="condicao-geral"
+        >
+            ⚪ Sem dados
+        </div>
+
+
+        <!-- ÚLTIMA SITUAÇÃO DOS SENSORES -->
+        <div
+            id="atualizacao-clima"
+            class="atualizacao-clima"
+        >
+            Sem dados recentes
+        </div>
+
+        <div class="ver-detalhes novo-botao clima-ver-detalhes">
+            Ver detalhes →
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         SISTEMA DE ENERGIA
+    ====================================================== -->
+
+    <section class="bateria">
+
+        <h2>
+            🔋 Sistema de Energia
+        </h2>
+
+
+        <div class="dados-bateria">
+
+
+            <!-- PORCENTAGEM -->
+
+            <div
+                class="valor-bateria"
+                id="nivel-bateria"
+            >
+                --%
+            </div>
+
+
+            <!-- TENSÃO -->
+
+            <div
+                class="tensao-bateria"
+                id="tensao-bateria"
+            >
+                -- V
+            </div>
+
+        </div>
+
+
+        <!-- BARRA DA BATERIA -->
+
+        <div class="barra-bateria">
+
+            <div
+                id="barra-bateria"
+                class="progresso-bateria"
+                style="width: 0%;"
+            ></div>
+
+        </div>
+
+
+        <!-- STATUS -->
+
+        <div id="status-bateria">
+            ⚪ Aguardando dados
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         STATUS DO SISTEMA
+    ====================================================== -->
+
+    <section class="status-sistema">
+
+        <span class="status-sistema-titulo">
+            SISTEMA DE MONITORAMENTO
+        </span>
+
+        <div id="conexao">
+            🟡 Aguardando ESP32...
+        </div>
+
+       
+        <div id="ultima-atualizacao">
+            Aguardando atualização...
+        </div>
+
+        <section class="manutencao">
+            <button
+                id="btn-limpar-historico"
+                class="btn-manutencao"
+                type="button"
+            >
+                🗑️ Limpar histórico dos sensores
+            </button>
+        </section>
+
+    </section>
+
+
+    </section>
+
+
+    <!-- =====================================================
+         MANUTENÇÃO - LIMPAR HISTÓRICO (PEDE SENHA)
+    ====================================================== -->
+
+    
+    <div id="modal-reset" class="modal-reset" hidden>
+
+        <div
+            class="modal-reset-caixa"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-reset-titulo"
+        >
+
+            <h3 id="modal-reset-titulo">Limpar histórico</h3>
+
+            <p>
+                Isso apaga <strong>todo o histórico</strong> gravado pelos sensores
+                (Caixa 1, Caixa 2, Caixa Principal, clima e chuva).
+                Os valores atuais, o código e as configurações não são afetados.
+                <strong>Não dá para desfazer.</strong>
+            </p>
+
+            <label class="modal-reset-check">
+                <input type="checkbox" id="reset-incluir-esp32">
+                Apagar também o histórico de conexão do ESP32
+            </label>
+
+            <input
+                type="password"
+                id="reset-senha"
+                placeholder="Senha de administrador"
+                autocomplete="current-password"
+            >
+
+            <div id="reset-mensagem" class="reset-mensagem"></div>
+
+            <div class="modal-reset-botoes">
+
+                <button
+                    type="button"
+                    id="reset-cancelar"
+                    class="btn-reset-cancelar"
+                >
+                    Cancelar
+                </button>
+
+                <button
+                    type="button"
+                    id="reset-confirmar"
+                    class="btn-reset-confirmar"
+                >
+                    Apagar histórico
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
+
+<script src="js/bateria.js"></script>
+
+
+<script type="module">
+import { initializeApp } from
+"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+
+import {
+    getDatabase,
+    ref,
+    onValue,
+    update
+} from
+"https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+import {
+    getAuth,
+    initializeAuth,
+    inMemoryPersistence,
+    signInAnonymously,
+    signInWithEmailAndPassword,
+    signOut
+} from
+"https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+console.log("🔥 Firebase Sync - Sítio 4 Irmãos");
+
+const firebaseConfigSync = {
+    apiKey: "SUA_API_KEY_FIREBASE",
+    authDomain: "SEU_PROJETO.firebaseapp.com",
+    databaseURL: "https://SEU_PROJETO-default-rtdb.firebaseio.com",
+    projectId: "SEU_PROJETO_FIREBASE",
+    storageBucket: "SEU_PROJETO.firebasestorage.app",
+    messagingSenderId: "SEU_MESSAGING_SENDER_ID",
+    appId: "SEU_FIREBASE_APP_ID"
+};
+
+const appSync = initializeApp(firebaseConfigSync, "firebaseSync");
+const dbSync = getDatabase(appSync);
+const authSync = getAuth(appSync);
+
+const TEMPO_OFFLINE = 45000;
+
+// A bateria é enviada pelo ESP32 a cada 60 s, então aceita dados de até 150 s.
+const TEMPO_OFFLINE_BATERIA = 150000;
+
+const timestamps = {
+    caixa1: null,
+    caixa2: null,
+    caixa3: null,
+    clima: null,
+    chuva: null,
+    esp32: null,
+    bateria: null
+};
+
+signInAnonymously(authSync)
+    .then(() => {
+        console.log("🔐 PWA autenticado anonimamente");
+        console.log("UID autenticado:", authSync.currentUser?.uid);
+
+console.log("Referência da bateria:", ref(dbSync, "bateria").toString());
+
+    function converterTimestamp(timestamp) {
+        if (!timestamp) return null;
+
+        if (!isNaN(timestamp)) {
+            let valor = Number(timestamp);
+            if (valor < 1000000000000) valor *= 1000;
+            return valor;
+        }
+
+        const data = Date.parse(timestamp);
+        return !isNaN(data) ? data : null;
+    }
+
+    function pegarTimestamp(dados) {
+        if (!dados) return null;
+
+        return converterTimestamp(
+            dados.timestamp ??
+            dados.ultima_atualizacao ??
+            dados.ultimaAtualizacao
+        );
+    }
+
+    function estaOnline(timestamp) {
+        if (!timestamp) return false;
+        return Math.abs(Date.now() - timestamp) <= TEMPO_OFFLINE;
+    }
+
+    function tempoDesdeAtualizacao(timestamp) {
+        if (!timestamp) return "Sem atualização";
+
+        const diferenca = Math.max(0, Date.now() - timestamp);
+        const segundos = Math.floor(diferenca / 1000);
+
+        if (segundos < 60) return "agora";
+
+        const minutos = Math.floor(segundos / 60);
+        if (minutos < 60) return `há ${minutos} min`;
+
+        const horas = Math.floor(minutos / 60);
+        if (horas < 24) return `há ${horas} h`;
+
+        const dias = Math.floor(horas / 24);
+        return `há ${dias} dia${dias > 1 ? "s" : ""}`;
+    }
+
+    function verificarStatusEsp32() {
+        const statusEl =
+            document.querySelector("#conexao") ||
+            document.querySelector("#status-conexao") ||
+            document.querySelector("#status-esp32");
+
+        const ultimaEl =
+            document.querySelector("#ultima-atualizacao");
+
+        const ultimoTimestamp = timestamps.esp32;
+        const online = estaOnline(ultimoTimestamp);
+
+        if (statusEl) {
+            statusEl.textContent =
+                online ? "🟢 ESP32 Online" : "🔴 ESP32 Offline";
+        }
+
+        if (ultimaEl) {
+            ultimaEl.textContent =
+                ultimoTimestamp
+                    ? "Última comunicação: " + tempoDesdeAtualizacao(ultimoTimestamp)
+                    : "Aguardando heartbeat do ESP32...";
+        }
+    }
+
+    function pegarTagSensor(numero) {
+        return document.querySelector(`#sensor-caixa-${numero}`);
+    }
+
+    function atualizarCaixaNaoInstalada(numero) {
+        const nivelEl = document.querySelector(`#nivel-caixa-${numero}`);
+        const litrosEl = document.querySelector(`#litros-caixa-${numero}`);
+        const aguaEl = document.querySelector(`#agua-caixa-${numero}`);
+        const statusEl = document.querySelector(`#status-caixa-${numero}`);
+        const sensorEl = pegarTagSensor(numero);
+
+        if (sensorEl) {
+            sensorEl.textContent = "○ SENSOR NÃO INSTALADO";
+            sensorEl.classList.remove("ativo");
+            sensorEl.classList.add("offline");
+        }
+
+        if (nivelEl) nivelEl.textContent = "--%";
+        if (litrosEl) litrosEl.textContent = "💧 -- litros";
+        if (aguaEl) aguaEl.style.height = "0%";
+        if (statusEl) statusEl.textContent = "⚪ Sensor não instalado";
+    }
+
+    function atualizarCaixaOffline(numero, dados = null) {
+        const nivelEl = document.querySelector(`#nivel-caixa-${numero}`);
+        const litrosEl = document.querySelector(`#litros-caixa-${numero}`);
+        const aguaEl = document.querySelector(`#agua-caixa-${numero}`);
+        const statusEl = document.querySelector(`#status-caixa-${numero}`);
+        const sensorEl = pegarTagSensor(numero);
+
+        if (sensorEl) {
+            sensorEl.textContent = "● SENSOR OFFLINE";
+            sensorEl.classList.remove("ativo");
+            sensorEl.classList.add("offline");
+        }
+
+        // Sensor offline nunca exibe uma leitura antiga como se fosse atual.
+        // O histórico continua preservado no Firebase e aparece somente no relatório.
+        if (nivelEl) nivelEl.textContent = "--%";
+        if (litrosEl) litrosEl.textContent = "💧 -- litros";
+        if (aguaEl) aguaEl.style.height = "0%";
+        if (statusEl) statusEl.textContent = "⚪ Sem dados atuais";
+    }
+
+    function atualizarCaixaOnline(numero, dados) {
+        const nivel = Number(dados.nivel_percentual);
+        const litros = Number(dados.litros);
+
+        const nivelEl =
+            document.querySelector(`#nivel-caixa-${numero}`);
+
+        const litrosEl =
+            document.querySelector(`#litros-caixa-${numero}`);
+
+        const aguaEl =
+            document.querySelector(`#agua-caixa-${numero}`);
+
+        const statusEl =
+            document.querySelector(`#status-caixa-${numero}`);
+
+        const sensorEl =
+            pegarTagSensor(numero);
+
+        if (sensorEl) {
+            sensorEl.textContent = "● SENSOR ATIVO";
+            sensorEl.classList.remove("offline");
+            sensorEl.classList.add("ativo");
+        }
+
+        if (nivelEl && !isNaN(nivel)) {
+            nivelEl.textContent = nivel.toFixed(1) + "%";
+        }
+
+        if (litrosEl && !isNaN(litros)) {
+            litrosEl.textContent = "💧 " + Math.round(litros) + " litros";
+        }
+
+        if (aguaEl && !isNaN(nivel)) {
+            aguaEl.style.height = nivel + "%";
+        }
+
+        if (statusEl) {
+            const status = dados.status || "";
+
+            if (status === "cheia") {
+                statusEl.textContent = "🟢 Nível alto";
+            } else if (status === "normal") {
+                statusEl.textContent = "🟢 Nível normal";
+            } else if (status === "baixo") {
+                statusEl.textContent = "🟡 Nível baixo";
+            } else if (status === "critico") {
+                statusEl.textContent = "🔴 Nível crítico";
+            } else {
+                statusEl.textContent = dados.status || "⚪ Sem informação";
+            }
+        }
+    }
+
+    function monitorarCaixa(numero) {
+        const nomeTimestamp = `caixa${numero}`;
+        const caixaRef = ref(dbSync, `caixas/caixa${numero}`);
+
+        onValue(
+            caixaRef,
+            snapshot => {
+                const dados = snapshot.val();
+
+                if (!dados) {
+                    timestamps[nomeTimestamp] = null;
+                    atualizarCaixaOffline(numero);
+                    verificarStatusEsp32();
+                    return;
+                }
+
+                if (dados.instalado === false) {
+                    timestamps[nomeTimestamp] = null;
+                    atualizarCaixaNaoInstalada(numero);
+                    verificarStatusEsp32();
+                    return;
+                }
+
+                const timestamp = pegarTimestamp(dados);
+                timestamps[nomeTimestamp] = timestamp;
+
+                if (estaOnline(timestamp)) {
+                    atualizarCaixaOnline(numero, dados);
+                } else {
+                    atualizarCaixaOffline(numero, dados);
+                }
+
+                verificarStatusEsp32();
+            },
+            erro => {
+                console.error(`❌ Erro Caixa ${numero}:`, erro);
+                timestamps[nomeTimestamp] = null;
+                atualizarCaixaOffline(numero);
+                verificarStatusEsp32();
+            }
+        );
+    }
+
+
+    function atualizarStatusClima() {
+        const atualizacaoEl =
+            document.querySelector("#atualizacao-clima");
+
+        if (!atualizacaoEl) return;
+
+        const validos = [
+            timestamps.clima,
+            timestamps.chuva
+        ].filter(valor => estaOnline(valor));
+
+        if (validos.length === 0) {
+            atualizacaoEl.textContent = "Sem dados recentes";
+            return;
+        }
+
+        const ultimoTimestamp = Math.max(...validos);
+
+        atualizacaoEl.textContent =
+            "Atualizado " + tempoDesdeAtualizacao(ultimoTimestamp);
+    }
+
+    function atualizarClimaOffline() {
+        const temperaturaEl = document.querySelector("#temperatura");
+        const umidadeEl = document.querySelector("#umidade");
+        const pressaoEl = document.querySelector("#pressao");
+
+        if (temperaturaEl) temperaturaEl.textContent = "--°C";
+        if (umidadeEl) umidadeEl.textContent = "--%";
+        if (pressaoEl) pressaoEl.textContent = "---- hPa";
+
+        atualizarStatusClima();
+    }
+
+    function atualizarClimaOnline(dados) {
+        const temperaturaEl = document.querySelector("#temperatura");
+        const umidadeEl = document.querySelector("#umidade");
+        const pressaoEl = document.querySelector("#pressao");
+
+        if (temperaturaEl && dados.temperatura !== undefined) {
+            temperaturaEl.textContent =
+                Number(dados.temperatura).toFixed(1) + "°C";
+        }
+
+        if (umidadeEl && dados.umidade !== undefined) {
+            umidadeEl.textContent =
+                Number(dados.umidade).toFixed(1) + "%";
+        }
+
+        if (pressaoEl && dados.pressao !== undefined) {
+            pressaoEl.textContent =
+                Number(dados.pressao).toFixed(1) + " hPa";
+        }
+
+        atualizarStatusClima();
+    }
+
+    const climaRef = ref(dbSync, "clima");
+
+    onValue(climaRef, snapshot => {
+        const dados = snapshot.val();
+
+        if (!dados) {
+            timestamps.clima = null;
+            atualizarClimaOffline();
+            verificarStatusEsp32();
+            return;
+        }
+
+        timestamps.clima = pegarTimestamp(dados);
+
+        if (estaOnline(timestamps.clima)) {
+            atualizarClimaOnline(dados);
+        } else {
+            atualizarClimaOffline();
+        }
+
+        verificarStatusEsp32();
+    });
+
+    function atualizarChuvaOffline() {
+        const statusChuva =
+            document.querySelector("#status-chuva");
+
+        if (statusChuva) {
+            statusChuva.textContent = "⚪ Monitoramento indisponível";
+        }
+
+        atualizarStatusClima();
+    }
+
+    function atualizarChuvaOnline(dados) {
+        const statusChuva =
+            document.querySelector("#status-chuva");
+
+        if (!statusChuva) return;
+
+        const status =
+            String(dados.status || "").toLowerCase();
+
+        if (status === "seco") {
+            statusChuva.textContent = "☀️ Sem chuva";
+        } else if (status === "gotas") {
+            statusChuva.textContent = "💧 Gotas detectadas";
+        } else if (status === "chuva") {
+            statusChuva.textContent = "🌧️ Chuva detectada";
+        } else {
+            statusChuva.textContent = "⚪ Monitoramento indisponível";
+        }
+
+        atualizarStatusClima();
+    }
+
+    const chuvaRef = ref(dbSync, "chuva");
+
+    onValue(chuvaRef, snapshot => {
+        const dados = snapshot.val();
+
+        if (!dados) {
+            timestamps.chuva = null;
+            atualizarChuvaOffline();
+            verificarStatusEsp32();
+            return;
+        }
+
+        timestamps.chuva = pegarTimestamp(dados);
+
+        if (estaOnline(timestamps.chuva)) {
+            atualizarChuvaOnline(dados);
+        } else {
+            atualizarChuvaOffline();
+        }
+
+        verificarStatusEsp32();
+    });
+
+    // =====================================================
+    // BATERIA UPS
+    // =====================================================
+
+    let ultimosDadosBateria = null;
+
+    function bateriaRecente() {
+        if (!timestamps.bateria) return false;
+        return Math.abs(Date.now() - timestamps.bateria) <= TEMPO_OFFLINE_BATERIA;
+    }
+
+    function mostrarBateria() {
+        if (typeof atualizarBateria !== "function") return;
+
+        if (
+            ultimosDadosBateria &&
+            ultimosDadosBateria.online === true &&
+            bateriaRecente()
+        ) {
+            atualizarBateria(ultimosDadosBateria);
+        } else {
+            atualizarBateria(null);
+        }
+    }
+
+    const bateriaRef = ref(dbSync, "bateria");
+
+    onValue(
+        bateriaRef,
+        snapshot => {
+            ultimosDadosBateria = snapshot.val();
+            timestamps.bateria = pegarTimestamp(ultimosDadosBateria);
+            mostrarBateria();
+        },
+        erro => {
+            console.error("❌ Erro ao ler bateria:", erro);
+            ultimosDadosBateria = null;
+            timestamps.bateria = null;
+            mostrarBateria();
+        }
+    );
+
+    // =====================================================
+    // HEARTBEAT DO ESP32
+    // =====================================================
+
+    const esp32Ref = ref(dbSync, "sistema/esp32");
+
+    onValue(
+        esp32Ref,
+        snapshot => {
+            const dados = snapshot.val();
+
+            if (!dados) {
+                timestamps.esp32 = null;
+                verificarStatusEsp32();
+                return;
+            }
+
+            timestamps.esp32 = pegarTimestamp(dados);
+            verificarStatusEsp32();
+        },
+        erro => {
+            console.error("❌ Erro heartbeat ESP32:", erro);
+            timestamps.esp32 = null;
+            verificarStatusEsp32();
+        }
+    );
+
+    monitorarCaixa(1);
+    monitorarCaixa(2);
+    monitorarCaixa(3);
+
+    setInterval(() => {
+        // Se uma caixa parar de comunicar, os valores atuais são apagados.
+        // A última leitura permanece somente no histórico do Firebase.
+        for (let numero = 1; numero <= 3; numero++) {
+            if (!estaOnline(timestamps[`caixa${numero}`])) {
+                atualizarCaixaOffline(numero);
+            }
+        }
+
+        if (!estaOnline(timestamps.clima)) {
+            atualizarClimaOffline();
+        }
+
+        if (!estaOnline(timestamps.chuva)) {
+            atualizarChuvaOffline();
+        }
+
+        mostrarBateria();
+
+        atualizarStatusClima();
+        verificarStatusEsp32();
+    }, 5000);
+
+    verificarStatusEsp32();
+    })
+    .catch((erro) => {
+        console.error("❌ Erro na autenticação anônima:", erro);
+    });
+
+
+// =====================================================
+// RESET DO HISTÓRICO (SOMENTE ADMINISTRADOR)
+// =====================================================
+// A senha NÃO fica no código: quem digita é você, na hora.
+// A verificação é feita pelo próprio Firebase (login) e as regras do
+// banco só deixam esta conta apagar o /historico. Por isso ninguém
+// consegue apagar o histórico só mexendo no código da página.
+
+// E-mail da conta de administrador criada em Authentication no Firebase.
+const ADMIN_EMAIL = "SEU_EMAIL_ADMIN_AQUI";
+
+// App separado, com login só em memória: o administrador não fica
+// logado depois que a operação termina ou a página é fechada.
+const appAdmin = initializeApp(firebaseConfigSync, "firebaseAdmin");
+const authAdmin = initializeAuth(appAdmin, { persistence: inMemoryPersistence });
+const dbAdmin = getDatabase(appAdmin);
+
+const btnLimparHistorico = document.querySelector("#btn-limpar-historico");
+const modalReset = document.querySelector("#modal-reset");
+const campoSenhaReset = document.querySelector("#reset-senha");
+const mensagemReset = document.querySelector("#reset-mensagem");
+const chkIncluirEsp32 = document.querySelector("#reset-incluir-esp32");
+const btnResetConfirmar = document.querySelector("#reset-confirmar");
+const btnResetCancelar = document.querySelector("#reset-cancelar");
+
+let resetEmAndamento = false;
+
+function mostrarMensagemReset(texto, tipo = "") {
+    mensagemReset.textContent = texto;
+    mensagemReset.className = "reset-mensagem" + (tipo ? " " + tipo : "");
+}
+
+function abrirModalReset() {
+    campoSenhaReset.value = "";
+    chkIncluirEsp32.checked = false;
+    mostrarMensagemReset("");
+    btnResetConfirmar.disabled = false;
+    btnResetCancelar.disabled = false;
+    modalReset.hidden = false;
+    campoSenhaReset.focus();
+}
+
+function fecharModalReset() {
+    if (resetEmAndamento) return;
+    campoSenhaReset.value = "";
+    modalReset.hidden = true;
+}
+
+function traduzirErroLogin(erro) {
+    switch (erro && erro.code) {
+        case "auth/invalid-credential":
+        case "auth/wrong-password":
+        case "auth/user-not-found":
+        case "auth/invalid-email":
+            return "Senha incorreta (ou a conta de administrador ainda não foi criada no Firebase).";
+        case "auth/too-many-requests":
+            return "Muitas tentativas. Aguarde alguns minutos e tente de novo.";
+        case "auth/network-request-failed":
+            return "Sem conexão com a internet.";
+        default:
+            return "Não foi possível confirmar a senha.";
+    }
+}
+
+async function apagarHistorico() {
+    if (resetEmAndamento) return;
+
+    const senha = campoSenhaReset.value;
+
+    if (!senha) {
+        mostrarMensagemReset("Digite a senha de administrador.", "erro");
+        campoSenhaReset.focus();
+        return;
+    }
+
+    resetEmAndamento = true;
+    btnResetConfirmar.disabled = true;
+    btnResetCancelar.disabled = true;
+    mostrarMensagemReset("Verificando senha...");
+
+    let logou = false;
+
+    try {
+        await signInWithEmailAndPassword(authAdmin, ADMIN_EMAIL, senha);
+        console.log("UID ADMIN:", authAdmin.currentUser?.uid);
+        logou = true;
+    } catch (erro) {
+        console.error("❌ Login do administrador:", erro);
+        mostrarMensagemReset(traduzirErroLogin(erro), "erro");
+    }
+
+    if (!logou) {
+        resetEmAndamento = false;
+        btnResetConfirmar.disabled = false;
+        btnResetCancelar.disabled = false;
+        campoSenhaReset.select();
+        return;
+    }
+
+    try {
+        mostrarMensagemReset("Apagando histórico...");
+
+        // Apaga somente o histórico gerado pelos sensores.
+        // Valores atuais (caixas, clima, chuva, bateria) não são tocados.
+        const alvos = {
+            "historico/caixa1": null,
+            "historico/caixa2": null,
+            "historico/caixa3": null,
+            "historico/clima": null,
+            "historico/chuva": null
+        };
+
+        if (chkIncluirEsp32.checked) {
+            alvos["historico/esp32"] = null;
+        }
+
+        await update(ref(dbAdmin), alvos);
+
+        console.log("🗑️ Histórico apagado");
+        mostrarMensagemReset("✅ Histórico apagado.", "ok");
+
+        setTimeout(() => {
+            resetEmAndamento = false;
+            fecharModalReset();
+        }, 2000);
+
+    } catch (erro) {
+        console.error("❌ Erro ao apagar histórico:", erro);
+
+        const semPermissao = String((erro && erro.message) || "").includes("PERMISSION_DENIED");
+
+        mostrarMensagemReset(
+            semPermissao
+                ? "Sem permissão: confira as regras do Firebase."
+                : "Falha ao apagar o histórico. Tente de novo.",
+            "erro"
+        );
+
+        resetEmAndamento = false;
+        btnResetConfirmar.disabled = false;
+        btnResetCancelar.disabled = false;
+
+    } finally {
+        // O administrador nunca fica logado depois da operação.
+        try {
+            await signOut(authAdmin);
+        } catch (erroSaida) {
+            console.error("Erro ao sair da conta de administrador:", erroSaida);
+        }
+    }
+}
+
+btnLimparHistorico.addEventListener("click", abrirModalReset);
+btnResetCancelar.addEventListener("click", fecharModalReset);
+btnResetConfirmar.addEventListener("click", apagarHistorico);
+
+campoSenhaReset.addEventListener("keydown", evento => {
+    if (evento.key === "Enter") {
+        apagarHistorico();
+    }
+});
+
+modalReset.addEventListener("click", evento => {
+    if (evento.target === modalReset) {
+        fecharModalReset();
+    }
+});
+
+document.addEventListener("keydown", evento => {
+    if (evento.key === "Escape" && !modalReset.hidden) {
+        fecharModalReset();
+    }
+});
+</script>
+
+<script>
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker
+        .register("./sw.js")
+        .then((registro) => {
+            console.log("PWA ativa");
+            registro.update();
+        })
+        .catch((erro) => {
+            console.error("Erro PWA:", erro);
+        });
+}
+</script>
+
+<!-- =====================================================
+     RODAPÉ VISUAL
+====================================================== -->
+
+<footer class="footer-sitio"></footer>
+
+</body>
+</html>

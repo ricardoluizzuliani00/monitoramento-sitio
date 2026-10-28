@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/png" href="/icons/logo-sitio-icon.png">    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes da Caixa • Sítio 4 Irmãos</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0b0d0f">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/detalhes.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+
+<div class="pagina-detalhes">
+
+    <header class="topo-detalhes">
+        <a href="index.html" class="voltar">← Voltar</a>
+
+        <div class="titulo-detalhes">
+            <span>CAIXA D'ÁGUA</span>
+            <h1 id="nome-caixa">💧 Caixa</h1>
+            <p id="capacidade-caixa">Capacidade • -- litros</p>
+        </div>
+
+        <div id="conexao-detalhes" class="online">🟡 Aguardando...</div>
+    </header>
+
+    <section class="resumo-caixa">
+
+        <div class="caixa-ilustracao">
+
+    <div class="tampa-caixa"></div>
+
+    <div class="corpo-caixa">
+
+        <div
+            id="agua-detalhes"
+            class="agua-caixa-nova"
+            style="height:0%;"
+        ></div>
+
+        <span id="texto-capacidade-tanque">-- L</span>
+
+    </div>
+
+</div>
+        
+
+        <div class="dados-principais">
+            <div id="nivel-detalhes" class="nivel-detalhes">--%</div>
+            <div class="label">NÍVEL ATUAL</div>
+            <div id="litros-detalhes" class="litros-detalhes">-- litros</div>
+        </div>
+
+        <div class="divisor-status"></div>
+
+        <div class="painel-status">
+            <div class="painel-status-topo">
+                <span class="gota-status">💧</span>
+                <span>Status</span>
+            </div>
+
+            <div id="status-detalhes" class="status-detalhes">
+                Aguardando dados...
+            </div>
+
+            <div class="linha-status"></div>
+            <p class="texto-status">Situação atual do sensor da caixa.</p>
+        </div>
+
+    </section>
+
+    <section class="cards-informacao">
+        <div class="info-card">
+            <span>📏 DISTÂNCIA</span>
+            <strong id="distancia-detalhes">-- cm</strong>
+        </div>
+
+        <div class="info-card">
+            <span>💧 CAPACIDADE</span>
+            <strong id="capacidade-detalhes">-- L</strong>
+        </div>
+
+        <div class="info-card">
+            <span>🕐 ATUALIZAÇÃO</span>
+            <strong id="atualizacao-detalhes">--</strong>
+        </div>
+    </section>
+
+    <section class="historico-card">
+        <div class="cabecalho-historico">
+            <div>
+                <span class="tag-historico">HISTÓRICO</span>
+                <h2>Nível da Caixa</h2>
+            </div>
+
+            <div class="acoes-historico">
+                <div class="filtros-historico">
+                    <button class="filtro ativo" data-periodo="24h">24h</button>
+                    <button class="filtro" data-periodo="7d">7 dias</button>
+                    <button class="filtro" data-periodo="30d">30 dias</button>
+                </div>
+                <div class="grupo-pdf">
+                    <button id="pdf-caixa-completo" class="botao-pdf" type="button">PDF Completo</button>
+                    <button id="pdf-caixa-resumido" class="botao-pdf secundario" type="button">PDF Resumido</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="sem-historico" class="sem-historico">Carregando histórico...</div>
+
+        <div class="grafico-container">
+            <canvas id="graficoNivel"></canvas>
+        </div>
+    </section>
+
+    <section class="alertas-card">
+        <h2>🔔 Alertas</h2>
+        <div id="alerta-nivel">Nenhum alerta no momento.</div>
+    </section>
+
+</div>
+
+<script type="module" src="js/caixa-detalhes.js?v=20260928-9"></script>
+<footer class="footer-sitio"></footer>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    const capacidadeCard =
+        document.querySelector("#capacidade-detalhes");
+
+    const capacidadeTanque =
+        document.querySelector("#texto-capacidade-tanque");
+
+    if (!capacidadeCard || !capacidadeTanque) return;
+
+    function atualizarTextoTanque() {
+        capacidadeTanque.textContent =
+            capacidadeCard.textContent.trim();
+    }
+
+    atualizarTextoTanque();
+
+    const observer = new MutationObserver(() => {
+        atualizarTextoTanque();
+    });
+
+    observer.observe(capacidadeCard, {
+        childList: true,
+        subtree: true,
+        characterData: true
+    });
+
+});
+</script>
+
+</body>
+</html>
