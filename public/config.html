@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Configurações - Sítio 4 Irmãos</title>
+<link rel="icon" type="image/png" href="/icons/logo-sitio-icon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0b0d0f">
+<link rel="stylesheet" href="style.css">
+<style>
+body{min-height:100vh;border:2px solid rgba(199,169,91,.60);border-radius:22px}
+.pagina-config{width:100%;max-width:1050px;margin:0 auto;padding:20px 60px 8px}
+.cabecalho-config{height:170px;width:100%;margin-bottom:22px;background:url("icons/cabecalho-sitio.png") center/contain no-repeat;border:1px solid rgba(199,169,91,.65);border-radius:18px}
+.cabecalho-link{display:block;text-decoration:none}
+.intro-config{padding:24px 28px;margin-bottom:18px;background:#15191d;border:1px solid rgba(199,169,91,.65);border-radius:22px}
+.voltar{display:inline-block;margin-bottom:12px;color:#c7a95b;font-size:13px;font-weight:700;text-decoration:none}
+.voltar:hover{color:#f2f2f2}
+h1.titulo-config{margin:0 0 8px;color:#c7a95b;font-size:25px}
+.sub{margin:0;color:#9aa2a9;font-size:13px;line-height:1.6}
+.cartao{margin-bottom:18px;padding:22px;background:#15191d;border:1px solid rgba(199,169,91,.65);border-radius:22px}
+.cartao h2{margin:0 0 6px;font-size:18px;color:#f2f2f2}
+.cartao h3{margin:0 0 16px;padding-bottom:10px;border-bottom:1px solid rgba(199,169,91,.25);font-size:16px;color:#c7a95b}
+.cartao-login{padding:24px 28px}
+.cartao-login .msg:empty{display:none}
+[hidden]{display:none!important}
+label.campo{display:block;margin-bottom:16px}
+.campo-titulo{display:block;margin-bottom:7px;color:#d7dce0;font-size:13px;font-weight:700}
+.campo-ajuda{display:block;margin-top:6px;color:#7f878e;font-size:11px;line-height:1.5}
+input[type=text],input[type=password]{width:100%;min-height:44px;padding:12px 14px;background:#0b0d0f;color:#f2f2f2;border:1px solid #343b42;border-radius:12px;font-size:16px}
+input:focus{outline:none;border-color:#c7a95b;box-shadow:0 0 0 2px rgba(199,169,91,.12)}
+.linha-botoes{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+.btn{flex:1;min-height:44px;padding:11px 12px;border:1px solid #45402f;border-radius:14px;background:#0f1316;color:#c7a95b;font-size:12px;font-weight:800;line-height:1.4;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.btn:hover:not(:disabled){background:#c7a95b;color:#111;border-color:#c7a95b}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn-principal{width:100%;min-height:48px;padding:14px;background:#c7a95b;color:#14110a;border:1px solid #c7a95b;font-size:14px}
+.btn-principal:hover:not(:disabled){background:#dfc477;color:#14110a}
+.btn-sair{width:100%;margin-top:12px;background:transparent;color:#777f86;border-color:#252b31}
+.interruptor{display:flex;align-items:center;gap:10px;margin-bottom:14px;font-size:14px;font-weight:700}
+.interruptor input{width:22px;height:22px;flex-shrink:0;accent-color:#c7a95b}
+.leitura{margin:8px 0 14px;padding:14px;background:#0d1012;border:1px solid #252b31;border-radius:15px;color:#b9c0c6;font-size:13px;line-height:1.6;overflow-wrap:anywhere}
+.leitura strong{color:#f2f2f2}
+.msg{min-height:18px;margin-top:9px;font-size:12px;line-height:1.5;color:#b9c0c6}
+.msg.erro{color:#e06c6c}.msg.ok{color:#5fbf7a}.msg.aviso{color:#d9b85a}
+.estado{margin-bottom:18px;padding:16px 20px;background:#15191d;border:1px solid rgba(199,169,91,.65);border-radius:18px;font-size:13px;line-height:1.8}
+.estado div+div{margin-top:5px;padding-top:5px;border-top:1px solid #252b31}
+.rodape-config{height:150px;margin-top:8px;background:url("icons/footer-sitio.png") center/cover no-repeat;opacity:.55;border-radius:18px}
+@media(min-width:701px){.pagina-config{width:calc(100% - 160px);max-width:760px;padding:20px 20px 8px}.rodape-config{width:calc(100% - 160px);max-width:760px;margin-left:auto;margin-right:auto}}
+@media(min-width:1100px){.pagina-config,.rodape-config{max-width:1200px}.config-colunas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 18px;align-items:start}}
+@media(max-width:700px){body{border-radius:16px}.pagina-config{padding:calc(16px + env(safe-area-inset-top,0px)) 14px calc(28px + env(safe-area-inset-bottom,0px))}.cabecalho-config{height:150px;margin-bottom:16px;background-color:#000}.intro-config{padding:20px 18px;border-radius:18px}h1.titulo-config{font-size:22px}.cartao{padding:18px;border-radius:18px}.linha-botoes{gap:8px}.linha-botoes .btn{padding:10px 8px;font-size:11px}.rodape-config{height:120px}}
+@media(max-width:390px){h1.titulo-config{font-size:20px}}
+</style>
+</head>
+<body>
+<main class="pagina-config">
+<a class="cabecalho-link" href="index.html" aria-label="Voltar ao painel do Sítio 4 Irmãos"><header class="cabecalho-config"></header></a>
+<section class="intro-config">
+<a class="voltar" href="index.html">← Voltar ao painel</a>
+<h1 class="titulo-config">⚙️ Configurar caixas d'água</h1>
+<p class="sub">Altere as medidas pelo celular ou computador, sem precisar ligar o ESP32 no computador. O ESP32 confere as mudanças a cada 1 minuto.</p>
+</section>
+<section id="tela-login" class="cartao cartao-login">
+<h2>🔒 Acesso do administrador</h2>
+<p class="sub" style="margin:6px 0 16px">Digite a senha para alterar as configurações.</p>
+<input type="text" id="login-usuario" autocomplete="username" hidden>
+<input type="password" id="login-senha" placeholder="Senha de administrador" autocomplete="current-password">
+<div id="login-msg" class="msg"></div>
+<button type="button" id="btn-entrar" class="btn btn-principal" style="margin-top:14px">Entrar</button>
+</section>
+<section id="tela-config" hidden>
+<div class="estado"><div id="status-esp32">⚪ ESP32: aguardando...</div><div id="status-aplicacao">⚪ Carregando configurações...</div></div>
+<div id="lista-caixas" class="config-colunas"></div>
+<button type="button" id="btn-salvar" class="btn btn-principal">💾 Salvar configurações</button>
+<div id="salvar-msg" class="msg"></div>
+<button type="button" id="btn-sair" class="btn btn-sair">Sair</button>
+</section>
+<footer class="rodape-config"></footer>
+</main>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { initializeAuth, inMemoryPersistence, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const firebaseConfig = {
+ apiKey:"**********",
+ authDomain:"********",
+ databaseURL:"**********",
+ projectId:"*******",
+ storageBucket:"*******",
+ messagingSenderId:"*********",
+ appId:"*********"
+};
+const ADMIN_EMAIL="*********";
+const app=initializeApp(firebaseConfig,"firebaseConfigPage");
+const auth=initializeAuth(app,{persistence:inMemoryPersistence});
+const db=getDatabase(app);
+const CAIXAS=[{n:1,nome:"Caixa 1"},{n:2,nome:"Caixa 2"},{n:3,nome:"Caixa Principal"}];
+const PADRAO={1:{capacidade:500,cheia:20,vazia:100,instalada:true},2:{capacidade:500,cheia:20,vazia:100,instalada:false},3:{capacidade:1000,cheia:20,vazia:100,instalada:false}};
+const CAP_MIN=1,CAP_MAX=100000,DIST_MIN=20,DIST_MAX=400,FOLGA_MIN=10,TEMPO_LEITURA_RECENTE_MS=60000,TEMPO_ESP32_ONLINE_MS=45000;
+let cfg=null,aplicada=null,esp32Ts=null,sujo=false,descadastrar=[],intervaloTela=null;
+const leituras={};
+const telaLogin=document.querySelector("#tela-login"),telaConfig=document.querySelector("#tela-config"),campoSenha=document.querySelector("#login-senha"),campoUsuario=document.querySelector("#login-usuario"),loginMsg=document.querySelector("#login-msg"),btnEntrar=document.querySelector("#btn-entrar"),btnSalvar=document.querySelector("#btn-salvar"),btnSair=document.querySelector("#btn-sair"),salvarMsg=document.querySelector("#salvar-msg"),listaCaixas=document.querySelector("#lista-caixas"),statusEsp32=document.querySelector("#status-esp32"),statusAplicacao=document.querySelector("#status-aplicacao");
+campoUsuario.value=ADMIN_EMAIL;
+function paraMs(timestamp){if(timestamp===null||timestamp===undefined)return null;const n=Number(timestamp);if(isNaN(n)||n<=0)return null;return n<1000000000000?n*1000:n}
+function formatar(numero,casas=1){return Number(numero).toFixed(casas).replace(".",",")}
+function lerNumero(texto){const limpo=String(texto).trim().replace(",",".");if(limpo==="")return NaN;return Number(limpo)}
+function mensagem(el,texto,tipo=""){el.textContent=texto;el.className="msg"+(tipo?" "+tipo:"")}
+function montarCartoes(){
+ listaCaixas.innerHTML=CAIXAS.map(({n,nome})=>`<section class="cartao" id="cartao-${n}"><h3>${nome}</h3>
+ <label class="interruptor"><input type="checkbox" id="inst-${n}">Sensor instalado</label>
+ <span class="campo-ajuda" style="margin:-8px 0 14px">Marque só depois de ligar o sensor nos pinos desta caixa. Sem sensor ligado, o ESP32 capta ruído e inventa leituras.</span>
+ <label class="campo"><span class="campo-titulo">Capacidade (litros)</span><input type="text" id="cap-${n}" inputmode="decimal" autocomplete="off"></label>
+ <label class="campo"><span class="campo-titulo">Distância com a caixa CHEIA (cm)</span><input type="text" id="cheia-${n}" inputmode="decimal" autocomplete="off"><span class="campo-ajuda">Do sensor até a superfície da água quando a caixa está cheia. Mínimo ${DIST_MIN} cm.</span></label>
+ <label class="campo"><span class="campo-titulo">Distância com a caixa VAZIA (cm)</span><input type="text" id="vazia-${n}" inputmode="decimal" autocomplete="off"><span class="campo-ajuda">Do sensor até o fundo da caixa. Máximo ${DIST_MAX} cm.</span></label>
+ <div class="leitura" id="leitura-${n}">📡 Sem leitura recente.</div>
+ <div class="linha-botoes"><button type="button" class="btn" id="usar-cheia-${n}" disabled>Usar leitura como CHEIA</button><button type="button" class="btn" id="usar-vazia-${n}" disabled>Usar leitura como VAZIA</button></div>
+ <div class="msg" id="erro-${n}"></div></section>`).join("");
+ CAIXAS.forEach(({n})=>{["inst","cap","cheia","vazia"].forEach(prefixo=>{const el=document.querySelector(`#${prefixo}-${n}`);el.addEventListener("input",()=>{sujo=true;atualizarTela()});el.addEventListener("change",()=>{sujo=true;atualizarTela()})});document.querySelector(`#usar-cheia-${n}`).addEventListener("click",()=>usarLeitura(n,"cheia"));document.querySelector(`#usar-vazia-${n}`).addEventListener("click",()=>usarLeitura(n,"vazia"))});
+}
+function lerFormulario(n){return{capacidade:lerNumero(document.querySelector(`#cap-${n}`).value),cheia:lerNumero(document.querySelector(`#cheia-${n}`).value),vazia:lerNumero(document.querySelector(`#vazia-${n}`).value),instalada:document.querySelector(`#inst-${n}`).checked}}
+function preencherFormulario(n,v){document.querySelector(`#cap-${n}`).value=String(v.capacidade);document.querySelector(`#cheia-${n}`).value=String(v.cheia);document.querySelector(`#vazia-${n}`).value=String(v.vazia);document.querySelector(`#inst-${n}`).checked=!!v.instalada}
+function validar(v){if(isNaN(v.capacidade)||v.capacidade<CAP_MIN||v.capacidade>CAP_MAX)return`Capacidade deve estar entre ${CAP_MIN} e ${CAP_MAX} litros.`;if(isNaN(v.cheia)||v.cheia<DIST_MIN||v.cheia>DIST_MAX-FOLGA_MIN)return`Distância cheia deve estar entre ${DIST_MIN} e ${DIST_MAX-FOLGA_MIN} cm.`;if(isNaN(v.vazia)||v.vazia>DIST_MAX)return`Distância vazia deve ser no máximo ${DIST_MAX} cm.`;if(v.vazia<v.cheia+FOLGA_MIN)return`A distância vazia precisa ser pelo menos ${FOLGA_MIN} cm maior que a cheia.`;return""}
+function preencherComDadosSalvos(){if(sujo)return;CAIXAS.forEach(({n})=>{const chave=`caixa${n}`;const v=(cfg&&cfg.caixas&&cfg.caixas[chave])||(aplicada&&aplicada.caixas&&aplicada.caixas[chave])||PADRAO[n];preencherFormulario(n,v)});atualizarTela()}
+function usarLeitura(n,campo){const leitura=leituras[n];if(!leituraRecente(leitura))return;document.querySelector(`#${campo}-${n}`).value=formatar(leitura.distancia,1).replace(",",".");sujo=true;atualizarTela()}
+function leituraRecente(leitura){return!!leitura&&typeof leitura.distancia==="number"&&!isNaN(leitura.distancia)&&leitura.ts!==null&&Math.abs(Date.now()-leitura.ts)<=TEMPO_LEITURA_RECENTE_MS}
+function atualizarTela(){
+ CAIXAS.forEach(({n})=>{const leituraEl=document.querySelector(`#leitura-${n}`),btnCheia=document.querySelector(`#usar-cheia-${n}`),btnVazia=document.querySelector(`#usar-vazia-${n}`),erroEl=document.querySelector(`#erro-${n}`),leitura=leituras[n],recente=leituraRecente(leitura);btnCheia.disabled=!recente;btnVazia.disabled=!recente;
+ if(!recente){leituraEl.textContent="📡 Sem leitura recente (sensor não instalado, desligado ou ESP32 offline)."}else{const v=lerFormulario(n);let texto=`📡 Leitura atual do sensor: <strong>${formatar(leitura.distancia)} cm</strong>`;if(validar(v)===""){let nivel=((v.vazia-leitura.distancia)/(v.vazia-v.cheia))*100;nivel=Math.max(0,Math.min(100,nivel));const litros=v.capacidade*(nivel/100);texto+=`<br>Com estes valores: <strong>${formatar(nivel)}%</strong> · <strong>${Math.round(litros)} L</strong>`}leituraEl.innerHTML=texto}
+ erroEl.textContent=sujo?validar(lerFormulario(n)):"";erroEl.className="msg erro"});
+ const online=esp32Ts!==null&&Math.abs(Date.now()-esp32Ts)<=TEMPO_ESP32_ONLINE_MS;statusEsp32.textContent=online?"🟢 ESP32 online":"🔴 ESP32 offline (as mudanças serão aplicadas quando ele voltar)";
+ const versaoSalva=cfg&&cfg.atualizado_em?Number(cfg.atualizado_em):null,versaoAplicada=aplicada&&aplicada.atualizado_em?Number(aplicada.atualizado_em):null;
+ if(!versaoSalva)statusAplicacao.textContent="⚪ Nenhuma alteração enviada ainda (mostrando o que o ESP32 usa hoje).";else if(versaoSalva===versaoAplicada){const ms=paraMs(aplicada.timestamp),quando=ms?" em "+new Date(ms).toLocaleString("pt-BR"):"";statusAplicacao.textContent="✅ O ESP32 já está usando estas configurações"+quando+"."}else statusAplicacao.textContent="⏳ Salvo. Aguardando o ESP32 aplicar (ele confere a cada 1 minuto)."
+}
+async function salvar(){
+ sujo=true;const caixas={};let temErro=false;CAIXAS.forEach(({n})=>{const v=lerFormulario(n);if(validar(v)!=="")temErro=true;caixas[`caixa${n}`]=v});atualizarTela();
+ if(temErro){mensagem(salvarMsg,"Corrija os campos em vermelho antes de salvar.","erro");return}
+ btnSalvar.disabled=true;mensagem(salvarMsg,"Salvando...");
+ try{await update(ref(db,"config"),{caixas,atualizado_em:Math.floor(Date.now()/1000)});sujo=false;mensagem(salvarMsg,"✅ Salvo no Firebase. O ESP32 aplica em até 1 minuto.","ok")}
+ catch(erro){console.error("❌ Erro ao salvar configurações:",erro);const semPermissao=String((erro&&erro.message)||"").includes("PERMISSION_DENIED");mensagem(salvarMsg,semPermissao?"Sem permissão: confira as regras do Firebase (nó /config).":"Falha ao salvar. Verifique a internet e tente de novo.","erro")}
+ finally{btnSalvar.disabled=false}
+}
+function iniciarListeners(){
+ descadastrar.push(onValue(ref(db,"config"),snapshot=>{cfg=snapshot.val();preencherComDadosSalvos();atualizarTela()},erro=>console.error("Erro /config:",erro)));
+ descadastrar.push(onValue(ref(db,"sistema/config_aplicada"),snapshot=>{aplicada=snapshot.val();preencherComDadosSalvos();atualizarTela()},erro=>console.error("Erro /sistema/config_aplicada:",erro)));
+ descadastrar.push(onValue(ref(db,"sistema/esp32"),snapshot=>{const dados=snapshot.val();esp32Ts=dados?paraMs(dados.timestamp):null;atualizarTela()},erro=>console.error("Erro heartbeat:",erro)));
+ CAIXAS.forEach(({n})=>descadastrar.push(onValue(ref(db,`caixas/caixa${n}`),snapshot=>{const dados=snapshot.val();if(!dados||dados.instalado===false)leituras[n]=null;else{const distancia=Number(dados.distancia_cm);leituras[n]={distancia:isNaN(distancia)?null:distancia,ts:paraMs(dados.timestamp)}}atualizarTela()},erro=>console.error(`Erro caixa ${n}:`,erro))));
+ intervaloTela=setInterval(atualizarTela,5000)
+}
+function pararListeners(){descadastrar.forEach(parar=>{try{parar()}catch(e){}});descadastrar=[];if(intervaloTela){clearInterval(intervaloTela);intervaloTela=null}}
+function traduzirErroLogin(erro){switch(erro&&erro.code){case"auth/invalid-credential":case"auth/wrong-password":case"auth/user-not-found":case"auth/invalid-email":return"Senha incorreta.";case"auth/too-many-requests":return"Muitas tentativas. Aguarde alguns minutos e tente de novo.";case"auth/network-request-failed":return"Sem conexão com a internet.";default:return"Não foi possível entrar."}}
+async function entrar(){const senha=campoSenha.value;if(!senha){mensagem(loginMsg,"Digite a senha.","erro");campoSenha.focus();return}btnEntrar.disabled=true;mensagem(loginMsg,"Verificando...");try{await signInWithEmailAndPassword(auth,ADMIN_EMAIL,senha);campoSenha.value="";mensagem(loginMsg,"");sujo=false;telaLogin.hidden=true;telaConfig.hidden=false;iniciarListeners()}catch(erro){console.error("❌ Login:",erro);mensagem(loginMsg,traduzirErroLogin(erro),"erro");campoSenha.select()}finally{btnEntrar.disabled=false}}
+async function sair(){pararListeners();try{await signOut(auth)}catch(erro){console.error("Erro ao sair:",erro)}cfg=null;aplicada=null;esp32Ts=null;sujo=false;telaConfig.hidden=true;telaLogin.hidden=false;mensagem(salvarMsg,"");campoSenha.focus()}
+montarCartoes();btnEntrar.addEventListener("click",entrar);btnSalvar.addEventListener("click",salvar);btnSair.addEventListener("click",sair);campoSenha.addEventListener("keydown",evento=>{if(evento.key==="Enter")entrar()});
+</script>
+<script>
+if("serviceWorker" in navigator){navigator.serviceWorker.register("./sw.js").then(registro=>{console.log("PWA ativa");registro.update()}).catch(erro=>console.error("Erro PWA:",erro))}
+</script>
+</body>
+</html>

@@ -6,6 +6,7 @@
 #include <Adafruit_BMP280.h>
 #include <time.h>
 #include <ArduinoJson.h>
+#include <Preferences.h>
 #include <RTClib.h>
 #include <sys/time.h>
 #include "esp_sntp.h"
@@ -23,7 +24,7 @@ struct RedeWiFi {
 };
 
 const RedeWiFi REDES_WIFI[] = {
-  {"SEU_WIFI_SSID", "SUA_SENHA_WIFI"}
+  {}
 };
 
 const int TOTAL_REDES_WIFI = sizeof(REDES_WIFI) / sizeof(REDES_WIFI[0]);
@@ -33,16 +34,16 @@ int proximaRedeWiFi = 0;
 
 // ---------------- FIREBASE ----------------
 
-const char* FIREBASE_URL = "";
+const char* FIREBASE_URL = "*********";
 
 // ---------------- FIREBASE AUTH ----------------
 
-const char* FIREBASE_API_KEY = "";
+const char* FIREBASE_API_KEY = "*********";
 
-const char* FIREBASE_EMAIL = "";
+const char* FIREBASE_EMAIL = "*********";
 
 // IMPORTANTE: preencha esta senha no seu PC antes de gravar.
-const char* FIREBASE_PASSWORD = "";
+const char* FIREBASE_PASSWORD = "*********";
 
 String firebaseIdToken = "";
 
@@ -55,8 +56,8 @@ const unsigned long FIREBASE_TOKEN_RELOGIN_MS = 50UL * 60UL * 1000UL;
 // Token do bot (criado no BotFather) e o seu chat_id.
 // IMPORTANTE: preencha no seu PC antes de gravar e nunca coloque
 // estes dados nos arquivos .js do dashboard (eles ficam publicos).
-const char* TELEGRAM_BOT_TOKEN = "";
-const char* TELEGRAM_CHAT_ID = "";
+const char* TELEGRAM_BOT_TOKEN = "*********";
+const char* TELEGRAM_CHAT_ID = "*********";
 
 // true = manda uma mensagem toda vez que o ESP32 liga
 const bool AVISAR_INICIALIZACAO = true;
@@ -1842,6 +1843,331 @@ void enviarHeartbeat() {
 }
 
 // ======================================================
+// CONFIGURACAO REMOTA DAS CAIXAS (PELO SITE)
+// ======================================================
+// A pagina config.html grava em /config os valores de cada caixa:
+// capacidade, cheia, vazia e instalada. O ESP32 confere a cada 60 s,
+// valida, aplica e guarda na memoria flash. Sem internet, continua
+// com o ultimo valor salvo. Os valores do vetor caixas[] la em cima
+// servem so como ponto de partida (primeira vez que o ESP32 liga).
+// Depois que o site enviar uma configuracao, ela passa a valer no
+// lugar dos valores do codigo.
+
+Preferences prefs;
+
+const unsigned long INTERVALO_CONFIG_MS = 60000UL;
+unsigned long ultimaChecagemConfig = 0;
+long configVersaoAplicada = 0;   // /config/atualizado_em ja aplicado
+bool configPublicada = false;    // ja informou ao Firebase o que esta usando?
+
+bool configValida(float capacidade, float cheia, float vazia) {
+  if (!(capacidade >= 1.0f && capacidade <= 100000.0f)) return false;
+  if (!(cheia >= 20.0f && cheia <= 390.0f)) return false;
+  if (!(vazia <= 400.0f && vazia >= cheia + 10.0f)) return false;
+  return true;
+}
+
+void salvarConfigLocal() {
+
+  if (!prefs.begin("caixas", false)) {
+    Serial.println("Config local: nao foi possivel gravar na flash");
+    return;
+  }
+
+  for (int i = 0; i < TOTAL_CAIXAS; i++) {
+    String k = "c" + String(caixas[i].numero);
+    prefs.putFloat((k + "cap").c_str(), caixas[i].capacidade);
+    prefs.putFloat((k + "ch").c_str(), caixas[i].cheia);
+    prefs.putFloat((k + "va").c_str(), caixas[i].vazia);
+    prefs.putBool((k + "in").c_str(), caixas[i].instalada);
+  }
+
+  prefs.putLong("versao", configVersaoAplicada);
+  prefs.putBool("salvo", true);
+  prefs.end();
+
+  Serial.println("Config local: salva na flash");
+}
+
+void carregarConfigLocal() {
+
+  if (!prefs.begin("caixas", false)) {
+    Serial.println("Config local: flash indisponivel (usando valores do codigo)");
+    return;
+  }
+
+  if (!prefs.getBool("salvo", false)) {
+    prefs.end();
+    Serial.println("Config local: nada salvo ainda (usando valores do codigo)");
+    return;
+  }
+
+  configVersaoAplicada = prefs.getLong("versao", 0);
+
+  for (int i = 0; i < TOTAL_CAIXAS; i++) {
+    String k = "c" + String(caixas[i].numero);
+
+    float cap = prefs.getFloat((k + "cap").c_str(), caixas[i].capacidade);
+    float cheia = prefs.getFloat((k + "ch").c_str(), caixas[i].cheia);
+    float vazia = prefs.getFloat((k + "va").c_str(), caixas[i].vazia);
+    bool inst = prefs.getBool((k + "in").c_str(), caixas[i].instalada);
+
+    if (configValida(cap, cheia, vazia)) {
+      caixas[i].capacidade = cap;
+      caixas[i].cheia = cheia;
+      caixas[i].vazia = vazia;
+      caixas[i].instalada = inst;
+    }
+
+    Serial.printf(
+      "Config local %s: %.0f L | cheia %.1f cm | vazia %.1f cm | %s\n",
+      caixas[i].nome,
+      caixas[i].capacidade,
+      caixas[i].cheia,
+      caixas[i].vazia,
+      caixas[i].instalada ? "instalada" : "sem sensor"
+    );
+  }
+
+  prefs.end();
+}
+
+// GET (put = false) ou PUT (put = true) no Firebase, com novo login se o
+// token expirar. Devolve o codigo HTTP (ou -1 se nao deu para tentar).
+int firebaseRequisicao(bool put, const String& caminho, const String& corpo, String& resposta) {
+
+  resposta = "";
+
+  if (WiFi.status() != WL_CONNECTED) {
+    return -1;
+  }
+
+  if (!garantirFirebaseAuth()) {
+    return -1;
+  }
+
+  int codigo = -1;
+
+  for (int tentativa = 0; tentativa < 2; tentativa++) {
+
+    WiFiClientSecure client;
+    client.setInsecure();
+
+    HTTPClient https;
+
+    if (!https.begin(client, urlFirebaseAutenticada(caminho))) {
+      return -1;
+    }
+
+    https.setTimeout(8000);
+
+    if (put) {
+      https.addHeader("Content-Type", "application/json");
+      codigo = https.PUT(corpo);
+    } else {
+      codigo = https.GET();
+    }
+
+    if (codigo > 0) {
+      resposta = https.getString();
+    }
+
+    https.end();
+
+    if (codigo == 401 && tentativa == 0) {
+      invalidarFirebaseAuth();
+
+      if (!autenticarFirebase()) {
+        return codigo;
+      }
+
+      continue;
+    }
+
+    break;
+  }
+
+  return codigo;
+}
+
+// Informa ao site o que o ESP32 esta usando (e qual versao da config).
+bool publicarConfigAplicada() {
+
+  JsonDocument doc;
+
+  doc["atualizado_em"] = configVersaoAplicada;
+  doc["timestamp"] = getTimestamp();
+  doc["ultima_atualizacao"] = getDataHora();
+
+  for (int i = 0; i < TOTAL_CAIXAS; i++) {
+    String chave = "caixa" + String(caixas[i].numero);
+    JsonObject o = doc["caixas"][chave].to<JsonObject>();
+    o["capacidade"] = caixas[i].capacidade;
+    o["cheia"] = caixas[i].cheia;
+    o["vazia"] = caixas[i].vazia;
+    o["instalada"] = caixas[i].instalada;
+  }
+
+  String json;
+  serializeJson(doc, json);
+
+  String resposta;
+  int codigo = firebaseRequisicao(true, "/sistema/config_aplicada", json, resposta);
+
+  Serial.print("Config aplicada -> Firebase: HTTP ");
+  Serial.println(codigo);
+
+  return codigo == 200;
+}
+
+// Faz o painel mostrar "SENSOR NAO INSTALADO" em vez de "offline".
+void marcarCaixaNaoInstalada(const CaixaConfig& caixa) {
+
+  JsonDocument doc;
+
+  doc["nome"] = caixa.nome;
+  doc["instalado"] = false;
+  doc["capacidade_litros"] = caixa.capacidade;
+
+  String json;
+  serializeJson(doc, json);
+
+  String resposta;
+  int codigo = firebaseRequisicao(
+    true,
+    "/caixas/caixa" + String(caixa.numero),
+    json,
+    resposta
+  );
+
+  Serial.print(caixa.nome);
+  Serial.print(" marcada como nao instalada: HTTP ");
+  Serial.println(codigo);
+}
+
+bool consultarConfigRemota() {
+
+  String resposta;
+  int codigo = firebaseRequisicao(false, "/config", "", resposta);
+
+  if (codigo != 200) {
+    Serial.printf("Config remota: HTTP %d (mantendo valores atuais)\n", codigo);
+    return false;
+  }
+
+  bool mudou = false;
+  bool virouNaoInstalada[TOTAL_CAIXAS] = { false };
+  long versao = configVersaoAplicada;
+
+  // "null" = nada configurado ainda no Firebase.
+  if (resposta != "null") {
+
+    JsonDocument doc;
+    DeserializationError erro = deserializeJson(doc, resposta);
+
+    if (erro) {
+      Serial.print("Config remota: JSON invalido: ");
+      Serial.println(erro.c_str());
+      return false;
+    }
+
+    versao = doc["atualizado_em"] | 0L;
+
+    JsonObject caixasJson = doc["caixas"].as<JsonObject>();
+
+    if (!caixasJson.isNull()) {
+
+      for (int i = 0; i < TOTAL_CAIXAS; i++) {
+
+        String chave = "caixa" + String(caixas[i].numero);
+        JsonObject c = caixasJson[chave].as<JsonObject>();
+
+        if (c.isNull()) {
+          continue;
+        }
+
+        float cap = c["capacidade"] | caixas[i].capacidade;
+        float cheia = c["cheia"] | caixas[i].cheia;
+        float vazia = c["vazia"] | caixas[i].vazia;
+        bool inst = c["instalada"] | caixas[i].instalada;
+
+        if (!configValida(cap, cheia, vazia)) {
+          Serial.printf("Config remota: valores invalidos para %s (ignorados)\n", caixas[i].nome);
+          continue;
+        }
+
+        if (cap == caixas[i].capacidade &&
+            cheia == caixas[i].cheia &&
+            vazia == caixas[i].vazia &&
+            inst == caixas[i].instalada) {
+          continue;
+        }
+
+        if (caixas[i].instalada && !inst) {
+          virouNaoInstalada[i] = true;
+        }
+
+        // Sensor passou a ser lido de novo: recomeca o filtro de oscilacao.
+        if (!caixas[i].instalada && inst && caixas[i].numero == 1) {
+          filtroCaixa1.inicializado = false;
+        }
+
+        caixas[i].capacidade = cap;
+        caixas[i].cheia = cheia;
+        caixas[i].vazia = vazia;
+        caixas[i].instalada = inst;
+        mudou = true;
+
+        Serial.printf(
+          "Config remota aplicada em %s: %.0f L | cheia %.1f cm | vazia %.1f cm | %s\n",
+          caixas[i].nome,
+          cap,
+          cheia,
+          vazia,
+          inst ? "instalada" : "sem sensor"
+        );
+      }
+    }
+  }
+
+  bool primeira = !configPublicada;
+  bool versaoMudou = (versao != configVersaoAplicada);
+
+  if (mudou || versaoMudou) {
+    configVersaoAplicada = versao;
+    salvarConfigLocal();
+  }
+
+  if (mudou || versaoMudou || primeira) {
+    configPublicada = publicarConfigAplicada();
+  }
+
+  for (int i = 0; i < TOTAL_CAIXAS; i++) {
+    if (!caixas[i].instalada && (primeira || virouNaoInstalada[i])) {
+      marcarCaixaNaoInstalada(caixas[i]);
+    }
+  }
+
+  return true;
+}
+
+void verificarConfigRemota() {
+
+  unsigned long agora = millis();
+
+  if (ultimaChecagemConfig != 0 && agora - ultimaChecagemConfig < INTERVALO_CONFIG_MS) {
+    return;
+  }
+
+  if (WiFi.status() != WL_CONNECTED) {
+    return;
+  }
+
+  ultimaChecagemConfig = (agora == 0) ? 1 : agora;
+  consultarConfigRemota();
+}
+
+// ======================================================
 // BATERIA DO UPS (divisor 100k + 10k no GPIO 1)
 // ======================================================
 // Média móvel das últimas 6 leituras de carga (30 segundos)
@@ -2072,6 +2398,12 @@ void setup() {
 Serial.printf("Bateria ADC mV: %d\n", analogReadMilliVolts(1));
 
   // -------------------------
+  // CONFIGURACAO SALVA NA FLASH (ultima enviada pelo site)
+  // -------------------------
+
+  carregarConfigLocal();
+
+  // -------------------------
   // CAIXAS
   // -------------------------
 
@@ -2150,6 +2482,10 @@ Serial.printf("Bateria ADC mV: %d\n", analogReadMilliVolts(1));
 
   autenticarFirebase();
 
+  // Pega a configuracao mais recente das caixas (enviada pelo site).
+  consultarConfigRemota();
+  ultimaChecagemConfig = millis();
+
   // Antes do primeiro heartbeat novo, consulta o último heartbeat salvo.
   // Se houver um intervalo grande (ex.: reinício/falta de energia), registra
   // uma queda aproximada a partir de 45 s após a última comunicação.
@@ -2213,6 +2549,9 @@ void loop() {
 
   // Bateria do UPS: lê a cada 5 s e envia ao Firebase a cada 60 s
   processarBateria();
+
+  // Confere a cada 60 s se o site enviou novas medidas das caixas
+  verificarConfigRemota();
 
   unsigned long agora = millis();
 

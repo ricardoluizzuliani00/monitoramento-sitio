@@ -57,6 +57,22 @@
     border-color: #5a2e2e;
 }
 
+/* Botão de configurações das caixas (link para config.html) */
+.status-sistema a.btn-config {
+    display: inline-block;
+    margin: 0 4px 6px;
+    text-decoration: none;
+}
+
+.status-sistema a.btn-config:hover {
+    color: #f2f2f2;
+    border-color: #c7a95b;
+}
+
+.status-sistema #btn-limpar-historico {
+    margin: 0 4px 6px;
+}
+
     </style>
 
 
@@ -711,12 +727,19 @@
         </div>
 
         <section class="manutencao">
+            <a
+                href="config.html"
+                class="btn-manutencao btn-config"
+            >
+                ⚙️ Configurações
+            </a>
+
             <button
                 id="btn-limpar-historico"
                 class="btn-manutencao"
                 type="button"
             >
-                🗑️ Limpar histórico dos sensores
+                🗑️ Limpar históricos
             </button>
         </section>
 
@@ -822,13 +845,13 @@ import {
 console.log("🔥 Firebase Sync - Sítio 4 Irmãos");
 
 const firebaseConfigSync = {
-    apiKey: "SUA_API_KEY_FIREBASE",
-    authDomain: "SEU_PROJETO.firebaseapp.com",
-    databaseURL: "https://SEU_PROJETO-default-rtdb.firebaseio.com",
-    projectId: "SEU_PROJETO_FIREBASE",
-    storageBucket: "SEU_PROJETO.firebasestorage.app",
-    messagingSenderId: "SEU_MESSAGING_SENDER_ID",
-    appId: "SEU_FIREBASE_APP_ID"
+    apiKey: "AIzaSyAVZ54IvjMVxydNMszFw06oFEfcRAtDbB0",
+    authDomain: "sitio-4-irmaos.firebaseapp.com",
+    databaseURL: "https://sitio-4-irmaos-default-rtdb.firebaseio.com",
+    projectId: "sitio-4-irmaos",
+    storageBucket: "sitio-4-irmaos.firebasestorage.app",
+    messagingSenderId: "638501718411",
+    appId: "1:638501718411:web:66ac7d32da48f5f85b078e"
 };
 
 const appSync = initializeApp(firebaseConfigSync, "firebaseSync");
@@ -995,6 +1018,27 @@ console.log("Referência da bateria:", ref(dbSync, "bateria").toString());
             sensorEl.textContent = "● SENSOR ATIVO";
             sensorEl.classList.remove("offline");
             sensorEl.classList.add("ativo");
+        }
+
+        // A capacidade vem do ESP32 (configurada na página de configurações).
+        const capacidade = Number(dados.capacidade_litros);
+
+        if (!isNaN(capacidade) && capacidade > 0) {
+            const capacidadeEl =
+                document.querySelector(`#card-caixa-${numero} .capacidade-nova`);
+
+            const capacidadeCaixaEl =
+                document.querySelector(`#card-caixa-${numero} .corpo-caixa span`);
+
+            if (capacidadeEl) {
+                capacidadeEl.textContent =
+                    "Capacidade: " + Math.round(capacidade) + " litros";
+            }
+
+            if (capacidadeCaixaEl) {
+                capacidadeCaixaEl.textContent =
+                    Math.round(capacidade) + " L";
+            }
         }
 
         if (nivelEl && !isNaN(nivel)) {
@@ -1318,7 +1362,7 @@ console.log("Referência da bateria:", ref(dbSync, "bateria").toString());
 // consegue apagar o histórico só mexendo no código da página.
 
 // E-mail da conta de administrador criada em Authentication no Firebase.
-const ADMIN_EMAIL = "SEU_EMAIL_ADMIN_AQUI";
+const ADMIN_EMAIL = "rlz_ri@hotmail.com";
 
 // App separado, com login só em memória: o administrador não fica
 // logado depois que a operação termina ou a página é fechada.
